@@ -4,11 +4,16 @@ import AppText from "./src/components/AppText"
 
 export default function App() {
   return (
+    
+    
     <View style={styles.container}>
       <AppText type='p'>Heloo</AppText>
       <StatusBar style="auto" />
     </View>
+    
   );
+  console.log("hio");
+  
 }
 
 const styles = StyleSheet.create({

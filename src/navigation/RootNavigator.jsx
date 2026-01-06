@@ -1,15 +1,24 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { useState } from "react"
+import { useContext, useState } from "react"
 import AppNavigator from "./AppNavigator";
 import AuthNavigator from "./AuthNavigator";
+import { AuthContext, AuthProvider } from "../context/AuthContext";
+import HomeScreen from "../screens/HomeScreen";
+import { ActivityIndicator, View } from "react-native";
+import BottomsTabNavigator from "./BottomsTabNavigator";
 
 const RootNavigator=()=>{
-    const [isLoggedIn,setIsLoggedIn] =useState(null);
+     const { userToken, loading } = useContext(AuthContext);
 
-    return(
-        <NavigationContainer>
-            {isLoggedIn?<AppNavigator/> : <AuthNavigator/>}
-        </NavigationContainer>
-    )
+   
+  if (loading){
+    return (
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  return userToken ? <BottomsTabNavigator /> : <AuthNavigator />;
 }
 export default RootNavigator;

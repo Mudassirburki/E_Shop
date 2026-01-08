@@ -13,11 +13,13 @@ import { SearchBar } from "react-native-screens";
 import AppText from "../components/AppText";
 import { Image } from "expo-image";
 import ProductCard from "../components/ProductCard";
-
+import { ArrowUpDown } from "lucide-react-native";
+import { ChevronDown } from "lucide-react-native/icons";
 const locations = ["Peshawar", "Islamabad", "Karachi", "Lahore"];
 const HomeScreen = () => {
   const [location, setLocation] = useState("");
   const [search, setSearch] = useState("");
+   const [isActive ,setIsActive]=useState(null)
   const categories = [
     { id: 1, icon: "shirt-outline" },
     { id: 2, icon: "laptop-outline" },
@@ -63,6 +65,7 @@ const HomeScreen = () => {
           color={"black"}
         />
       </View>
+      
 
       {/* searchBar */}
       <View style={styles.searchBar}>
@@ -86,28 +89,37 @@ const HomeScreen = () => {
         }}
       >
         <AppText.body>Top Categories</AppText.body>
-        <Ionicons name="arrow-forward-outline" size={23} color={"#000"} />
+        <Ionicons name="arrow-forward" size={23} color={"#000"} />
       </View>
 
       <FlatList
-        data={categories}
-        keyExtractor={(item) => item.id}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingHorizontal: 10,
-        }}
-        renderItem={({ item }) => (
-          <View style={styles.categoriesRoot}>
-            <Ionicons
-              style={{ alignSelf: "center" }}
-              name={item.icon}
-              size={22}
-              color={"#04764E"}
-            />
-          </View>
-        )}
-      />
+  data={categories}
+  keyExtractor={(item) => item.id.toString()}
+  horizontal
+  showsHorizontalScrollIndicator={false}
+  contentContainerStyle={{ paddingHorizontal: 10 }}
+  renderItem={({ item }) => {
+    const active = isActive === item.id;
+
+    return (
+      <Pressable onPress={() => setIsActive(item.id)}>
+        <View
+          style={[
+            styles.categoriesRoot,
+            { backgroundColor: active ? "#F06A25" : "#FFFFFF" },
+          ]}
+        >
+          <Ionicons
+            name={item.icon}
+            size={22}
+            color={active ? "#FFFFFF" : "#000000"}
+          />
+        </View>
+      </Pressable>
+    );
+  }}
+/>
+
 
       <FlatList
         data={imageCategories}
@@ -120,11 +132,26 @@ const HomeScreen = () => {
         )}
       />
 
+      <View style={styles.hotDeals}>
+        <AppText.body style={{fontWeight:"bold"}}>Hot Deals</AppText.body>
+        <View style={{flexDirection:"row",gap:5}}>
+          <ArrowUpDown size={20} color={"black"}/>
+          <AppText.body>Sort by: All</AppText.body>
+          <ChevronDown size={20} color={"#F06A25"}/>
+        </View>
+      </View>
+
       <FlatList
         data={productCard}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <ProductCard item={item} />}
-        contentContainerStyle={{ padding: 16 }}
+        contentContainerStyle={{ padding: 5}}
+      />
+        <FlatList
+        data={productCard}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <ProductCard item={item} />}
+        contentContainerStyle={{ padding: 5 }}
       />
     </View>
   );
@@ -137,11 +164,18 @@ const styles = StyleSheet.create({
     // flex: 1,
     padding: 20,
   },
+  hotDeals:{
+    padding:10,
+    flexDirection:"row",
+    justifyContent:"space-between",
+   
+  },
   header: {
     padding: 20,
     marginTop: 20,
     justifyContent: "space-between",
     flexDirection: "row",
+    
   },
   searchBar: {
     flexDirection: "row",
@@ -154,7 +188,6 @@ const styles = StyleSheet.create({
   categoriesRoot: {
     width: 60,
     height: 40,
-    backgroundColor: "#fff",
     borderRadius: 10,
     marginRight: 20,
     alignItems: "center",

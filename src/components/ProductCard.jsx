@@ -6,6 +6,7 @@ import {
 } from "react-native";
 import AppText from "./AppText";
 import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
 
 const ProductCard = ({ item }) => {
   return (
@@ -14,11 +15,11 @@ const ProductCard = ({ item }) => {
       <TouchableOpacity style={styles.topSection} activeOpacity={0.8}>
         {/* Left Image */}
         <View style={styles.imageWrapper}>
-          <Image source={item.image} style={styles.image} resizeMode="cover" />
+          <Image source={item.image} style={styles.image} resizeMode="stretch" />
            {/* Example Overlay Badge */}
-          <View style={styles.badge}>
+          {/* <View style={styles.badge}>
              <Ionicons name="bag-handle" size={12} color="#fff" />
-          </View>
+          </View> */}
         </View>
 
         {/* Right Content */}
@@ -71,11 +72,11 @@ const ProductCard = ({ item }) => {
         <View style={styles.userInfo}>
            <View style={styles.avatarPlaceholder}>
              <Image 
-                source={{uri: 'https://randomuser.me/api/portraits/men/32.jpg'}} 
+                source={require("../../assets/burki.jpg")} 
                 style={styles.avatarImage} 
              />
            </View>
-           <AppText.body style={styles.username}>Ahmadkhan10</AppText.body>
+           <AppText.body style={styles.username}>Mudassir Burki</AppText.body>
         </View>
 
         <View style={styles.socialActions}>

@@ -1,12 +1,13 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import AppText from "./AppText";
 
 export default function CustomTabs({ state, descriptors, navigation }) {
   const icons = {
-    Home:"home",
-    Chat:"chatbubbles-outline",
-    Settings:"settings",
-    Profile:"person"
+    Home: "home",
+    Chat: "chatbubbles-outline",
+    Settings: "settings",
+    Profile: "person"
   };
   return (
     <View style={styles.container}>
@@ -26,26 +27,26 @@ export default function CustomTabs({ state, descriptors, navigation }) {
             activeOpacity={1} // boolean safe
             accessibilityState={{ selected: !!accessibilitySelected }} // cast to boolean
           >
-             <Ionicons name={icons[route.name]} size={24} color={isFocused?"#BB4100":"#999"} />
-            <Text style={{ color: isFocused ? '#BB4100' : '#999' }}>
+            <Ionicons name={icons[route.name]} size={24} color={isFocused ? "#BB4100" : "#999"} />
+            <AppText.small style={{ color: isFocused ? '#BB4100' : '#999' }}>
               {route.name}
-            </Text>
+            </AppText.small>
           </TouchableOpacity>
         );
       })}
     </View>
   );
 }
-const styles =StyleSheet.create ({
+const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     height: 60,
     borderTopWidth: 1,
     borderTopColor: '#ddd',
-    backgroundColor: '#fff',  
+    backgroundColor: '#fff',
   },
   tab: {
-    flex: 1,  
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -1,6 +1,7 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import AppText from "./AppText";
 
 const CustomDropdown = ({ data, onSelect, placeholder }) => {
   const [open, setOpen] = useState(false);
@@ -20,13 +21,13 @@ const CustomDropdown = ({ data, onSelect, placeholder }) => {
         onPress={() => setOpen(!open)}
       >
         <Ionicons name="location" size={20} color="#BB4100" />
-        <Text style={styles.text}>
+        <AppText.body style={styles.text}>
           {selected ? selected : placeholder}
-        </Text>
+        </AppText.body>
         <Ionicons
           name={open ? "chevron-up" : "chevron-down"}
           size={20}
-          style={{marginRight:19}}
+          style={{ marginRight: 19 }}
           color="#555"
         />
       </TouchableOpacity>
@@ -40,7 +41,7 @@ const CustomDropdown = ({ data, onSelect, placeholder }) => {
               style={styles.item}
               onPress={() => handleSelect(item)}
             >
-              <Text>{item}</Text>
+              <AppText.body>{item}</AppText.body>
             </TouchableOpacity>
           ))}
         </View>
@@ -54,9 +55,9 @@ export default CustomDropdown;
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    width:"50%",
+    width: "50%",
     padding: 14,
-   
+
   },
   text: {
     flex: 1,

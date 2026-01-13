@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View, ScrollView } from "react-native";
 import React, { useContext, useState } from "react";
 import CusttomInput from "../../components/input/CusttomInput";
 import CusttomButton from "../../components/CusttomButton";
@@ -6,15 +6,18 @@ import AppText from "../../components/AppText";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
+import { heightPercentageToDP, widthPercentageToDP } from "react-native-responsive-screen";
+import { FONT, SPACING, SCREEN_HEIGHT } from "../../components/responsive/AppResponsive";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
-  const[error,setError]=useState("");
-  const {login} =useContext(AuthContext)
+  const [error, setError] = useState("");
+  const { login } = useContext(AuthContext)
 
-const validateBtn = () => {
+  const validateBtn = () => {
     if (!email.trim()) {
       setError("Email required");
       return false;
@@ -38,73 +41,86 @@ const validateBtn = () => {
 
   const handleLogin = async () => {
     if (!validateBtn()) return;
+
     try {
       await login(email, password);
+
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Home" }],
+      });
     } catch (error) {
-      Alert.alert("Error Message", error.message);
+      setError(error.message); // show error message
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <Image
-        style={{
-          height: 100,
-          width: 100,
-          contentFit: "contain",
-          alignSelf: "center",
-          marginTop:100,marginBottom:100,
-        }}
-        source={require("../../../assets/logo.png")}
-      />
-      <AppText.h1 style={{ alignSelf: "flex-start" }}>
-        Sign in to your {"\n"} Account
-      </AppText.h1>
-      <CusttomInput
-        placeholder="Enter your Email"
-        onChangeText={(text)=>{setEmail(text)
-          setError("")
-        }}
-        value={email}
-        keyboardType="email-address"
-      />
-      <CusttomInput
-        placeholder="Enter your Password"
-        onChangeText={(text)=>{setPassword(text)
-          setError("")
-        }}
-        value={password}
-        secureTextEntry
-      />
-       {error ? (
-  <Text style={{ color: "red", marginTop: 10 }}>{error}</Text>) : null}
-      <AppText.medium style={{alignSelf:"flex-end",}}>Forgot password?</AppText.medium>
 
-      <CusttomButton title="Login" onPress={handleLogin} />
-      <AppText.small style={{ alignSelf: "center" }}>
-        or login in with
-      </AppText.small>
-      <TouchableOpacity
-      style={styles.googleBtn}
-      >
-        <Image style={{height:30,width:30}} source={require("../../../assets/googleIcon.png")}/>
-        <AppText.body>Continue with Google</AppText.body>
-      </TouchableOpacity>
-       <TouchableOpacity
-      style={styles.googleBtn}
-      >
-        <Image style={{height:30,width:30}} source={require("../../../assets/snapchat_logo.png")}/>
-        <AppText.body>Continue with SnapChat</AppText.body>
-      </TouchableOpacity>
-      <View style={{flexDirection:"row",justifyContent:"center",gap:5,marginTop:150}}>
-        <AppText.body>Don't have an account?</AppText.body>
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: SPACING.medium }} showsVerticalScrollIndicator={false}>
+        <Image
+          style={{
+            height: heightPercentageToDP(6),
+            width: widthPercentageToDP(40),
+            contentFit: "contain",
+            alignSelf: "center",
+            marginTop: SPACING.large,
+            marginBottom: SPACING.medium
+          }}
+          source={require("../../../assets/logo.png")}
+        />
+        <AppText.h1 style={{ alignSelf: "flex-start", marginBottom: SPACING.medium }}>
+          Sign in to your {"\n"} Account
+        </AppText.h1>
+        <CusttomInput
+          placeholder="Enter your Email"
+          onChangeText={(text) => {
+            setEmail(text)
+            setError("")
+          }}
+          value={email}
+          keyboardType="email-address"
+        />
+        <CusttomInput
+          placeholder="Enter your Password"
+          onChangeText={(text) => {
+            setPassword(text)
+            setError("")
+          }}
+          value={password}
+          secureTextEntry
+        />
+        {error ? (
+          <AppText.small style={{ color: "red", marginTop: 10 }}>{error}</AppText.small>) : null}
+        <AppText.medium style={{ alignSelf: "flex-end", marginVertical: SPACING.small }}>Forgot password?</AppText.medium>
+
+        <CusttomButton title="Login" onPress={handleLogin} />
+        <AppText.small style={{ alignSelf: "center", marginVertical: SPACING.medium }}>
+          or login in with
+        </AppText.small>
         <TouchableOpacity
-        onPress={()=>navigation.navigate("SignUp")}
+          style={styles.googleBtn}
         >
-          <AppText.medium>SignUp</AppText.medium>
+          <Image style={{ height: 30, width: 30 }} source={require("../../../assets/googleIcon.png")} />
+          <AppText.body>Continue with Google</AppText.body>
         </TouchableOpacity>
-      </View>
-    </View>
+        <TouchableOpacity
+          style={styles.googleBtn}
+        >
+          <Image style={{ height: 30, width: 30 }} source={require("../../../assets/snapchat_logo.png")} />
+          <AppText.body>Continue with SnapChat</AppText.body>
+        </TouchableOpacity>
+
+        <View style={{ flexDirection: "row", justifyContent: "center", gap: 5, marginTop: SPACING.large * 2 }}>
+          <AppText.body>Don't have an account?</AppText.body>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <AppText.medium style={{ fontWeight: "bold" }}>SignUp</AppText.medium>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -113,18 +129,19 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    backgroundColor: "#fff"
   },
-  googleBtn:{
-    flexDirection:"row",
-    backgroundColor:"#FFFFFF",
-    height:48,
-    borderRadius:10,
-    marginTop:20,
-    justifyContent:"center",
-    alignItems:"center",
-    gap:20
-    
-
+  googleBtn: {
+    flexDirection: "row",
+    backgroundColor: "#FFFFFF",
+    height: 48,
+    borderRadius: 10,
+    marginTop: SPACING.small,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 20,
+    borderWidth: 1,
+    borderColor: "#eee"
   }
 });

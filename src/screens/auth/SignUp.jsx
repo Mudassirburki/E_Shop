@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, TouchableOpacity, View, ScrollView } from "react-native";
 import React, { useContext, useState } from "react";
 import CusttomInput from "../../components/input/CusttomInput";
 import CusttomButton from "../../components/CusttomButton";
@@ -6,6 +6,9 @@ import AppText from "../../components/AppText";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { FONT, SPACING } from "../../components/responsive/AppResponsive";
 
 const SignUp = () => {
   const { SignUP, login } = useContext(AuthContext);
@@ -58,98 +61,108 @@ const SignUp = () => {
   };
 
   const handleSignUp = async () => {
-  if (!validateBtn()) return;
+    if (!validateBtn()) return;
 
-  try {
-    // 1. Sign up the user
-    await SignUP(name, email, password);
+    try {
+      const user = await SignUP(email, password); // signup
+      await login(email, password); // auto-login
 
-    // 2. Automatically log in the user
-    await login(email, password);
+      Alert.alert("Success", "Account successfully created!");
 
-    // 3. Feedback
-    Alert.alert("Success", "Account successfully created!");
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: "HomeTabs", // Tab Navigator ka name
+            state: {
+              index: 0,
+              routes: [{ name: "HomeScreen" }], // Tab ke andar screen
+            },
+          },
+        ],
+      });
 
-    // 4. Navigate to Home screen
-    navigation.replace("Home"); 
-  } catch (error) {
-    // Show error if email already exists
-    Alert.alert("Error", error.message);
-  }
-};
+
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    }
+  };
+
 
 
   return (
-    <View style={styles.container}>
-      <Image
-        style={{
-          height: 100,
-          width: 100,
-          contentFit: "contain",
-          alignSelf: "center",
-          marginTop: 70,
-          marginBottom: 70,
-        }}
-        source={require("../../../assets/logo.png")}
-      />
-      <AppText.h1 style={{ alignSelf: "flex-start" }}>Sign up</AppText.h1>
-      <AppText.small style={{ marginBottom: 20 }}>
-        Create an account to contineu!
-      </AppText.small>
-      <AppText.small>Full Name</AppText.small>
-      <CusttomInput
-        placeholder="Enter your Full name"
-        onChangeText={setName}
-        value={name}
-        keyboardType="text"
-      />
-      <AppText.small>Email</AppText.small>
-      <CusttomInput
-        placeholder="Enter your Email"
-        onChangeText={setEmail}
-        value={email}
-        keyboardType="email-address"
-      />
-      <AppText.small>Phone Number</AppText.small>
-      <CusttomInput
-        placeholder="Enter your Phone Number"
-        onChangeText={setPhoneNumber}
-        value={phoneNumber}
-        keyboardType="numeric"
-      />
-      <AppText.small>Password</AppText.small>
-      <CusttomInput
-        placeholder="Enter your Password"
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry={!showPassword}
-      />
-      <AppText.small>Confirm Password</AppText.small>
-      <CusttomInput
-        placeholder="Confirm your Password"
-        onChangeText={setConfirmPassword}
-        value={confirmPassword}
-        secureTextEntry={!showConfirmPassword}
-      />
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: SPACING.medium }} showsVerticalScrollIndicator={false}>
+        <Image
+          style={{
+            height: wp("25%"),
+            width: wp("25%"),
+            contentFit: "contain",
+            alignSelf: "center",
+            marginTop: SPACING.large,
+            marginBottom: SPACING.large,
+          }}
+          source={require("../../../assets/logo.png")}
+        />
+        <AppText.h1 style={{ alignSelf: "flex-start", marginBottom: SPACING.medium }}>Sign up</AppText.h1>
+        <AppText.small style={{ marginBottom: SPACING.regular }}>
+          Create an account to contineu!
+        </AppText.small>
+        <AppText.small>Full Name</AppText.small>
+        <CusttomInput
+          placeholder="Enter your Full name"
+          onChangeText={setName}
+          value={name}
+          keyboardType="text"
+        />
+        <AppText.small>Email</AppText.small>
+        <CusttomInput
+          placeholder="Enter your Email"
+          onChangeText={setEmail}
+          value={email}
+          keyboardType="email-address"
+        />
+        <AppText.small>Phone Number</AppText.small>
+        <CusttomInput
+          placeholder="Enter your Phone Number"
+          onChangeText={setPhoneNumber}
+          value={phoneNumber}
+          keyboardType="numeric"
+        />
+        <AppText.small>Password</AppText.small>
+        <CusttomInput
+          placeholder="Enter your Password"
+          onChangeText={setPassword}
+          value={password}
+          secureTextEntry={!showPassword}
+        />
+        <AppText.small>Confirm Password</AppText.small>
+        <CusttomInput
+          placeholder="Confirm your Password"
+          onChangeText={setConfirmPassword}
+          value={confirmPassword}
+          secureTextEntry={!showConfirmPassword}
+        />
 
-      {error ? (
-        <Text style={{ color: "red", marginTop: 10 }}>{error}</Text>
-      ) : null}
-      <CusttomButton title="Sign Up" onPress={handleSignUp} />
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          gap: 5,
-          marginTop: 20,
-        }}
-      >
-        <AppText.body>Already have an account?</AppText.body>
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-          <AppText.medium>Login</AppText.medium>
-        </TouchableOpacity>
-      </View>
-    </View>
+        {error ? (
+          <AppText.small style={{ color: "red", marginTop: 10 }}>{error}</AppText.small>
+        ) : null}
+        <CusttomButton title="Sign Up" onPress={handleSignUp} />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            gap: 5,
+            marginTop: SPACING.regular,
+          }}
+        >
+          <AppText.body>Already have an account?</AppText.body>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <AppText.medium style={{ fontWeight: "bold" }}>Login</AppText.medium>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -158,7 +171,8 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    backgroundColor: "#fff",
   },
   googleBtn: {
     flexDirection: "row",

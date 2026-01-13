@@ -3,61 +3,68 @@ import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext();
 
-export const AuthProvider =({children}) =>{
-    const [userToken , setUserToken] = useState(null);
-    const [loading , setLoading] = useState(true);
+export const AuthProvider = ({ children }) => {
+  const [userToken, setUserToken] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(()=>{
-        const restoreSession =async()=>{
-            const token = await AsyncStorage.getItem("userToken");
-            if (token) setUserToken(token);
-            setLoading(false);
-        };
-        restoreSession();
-    },[]);
+  // App start pe restore session
+  useEffect(() => {
+    const restoreSession = async () => {
+      const token = await AsyncStorage.getItem("userToken");
+      if (token) setUserToken(token);
+      setLoading(false);
+    };
+    restoreSession();
+  }, []);
 
-    const SignUP =async(email , password)=>{
-        const storedUsers = await AsyncStorage.getItem("users");
-        const user = storedUsers? JSON.parse(storedUsers):[];
+  // Signup function
+  const SignUP = async (email, password) => {
+    email = email.trim().toLowerCase();
 
-         const already = user.find(u => u.email === email);
+    const storedUsers = await AsyncStorage.getItem("users");
+    const users = storedUsers ? JSON.parse(storedUsers) : [];
+
+    const already = users.find(u => u.email === email);
     if (already) throw new Error("User already exists");
 
-    user.push({
+    const newUser = {
       id: Date.now().toString(),
       email,
       password,
-    });
+    };
 
-    await AsyncStorage.setItem("users", JSON.stringify(user));
+    users.push(newUser);
+    await AsyncStorage.setItem("users", JSON.stringify(users));
+
+    return newUser; // return new user
   };
 
+  // Login function
   const login = async (email, password) => {
-  const storedUser = await AsyncStorage.getItem("users");
-  const users = storedUser ? JSON.parse(storedUser) : [];
+    email = email.trim().toLowerCase();
 
-  const user = users.find(u => u.email === email);
-  if (!user) {
-    throw new Error("Account not found"); // email exist nahi karta
-  } 
-  if (user.password !== password) {
-    throw new Error("Incorrect password"); // password galat
-  }
+    const storedUsers = await AsyncStorage.getItem("users");
+    const users = storedUsers ? JSON.parse(storedUsers) : [];
 
-  await AsyncStorage.setItem("userToken", user.id);
-  setUserToken(user.id);
-};
+    const user = users.find(u => u.email === email);
+    if (!user) throw new Error("Account not found");
+    if (user.password !== password) throw new Error("Incorrect password");
 
-  const logout =async()=>{
+    await AsyncStorage.setItem("userToken", user.id);
+    setUserToken(user.id);
+
+    return user;
+  };
+
+  // Logout function
+  const logout = async () => {
     await AsyncStorage.removeItem("userToken");
     setUserToken(null);
-  }
-   return (
-    <AuthContext.Provider
-      value={{ SignUP, login, logout, userToken, loading }}
-    >
+  };
+
+  return (
+    <AuthContext.Provider value={{ SignUP, login, logout, userToken, loading }}>
       {children}
     </AuthContext.Provider>
   );
-
-}
+};

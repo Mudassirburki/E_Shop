@@ -2,19 +2,22 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
 
-const CusttomInput=({
-   value,
-   onChangeText,
-   placeholder,
-   secureTextEntry=false,
-   keyboardType="default",
-   style,
-   ...props
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { FONT } from "../responsive/AppResponsive";
 
-})=>{
+const CusttomInput = ({
+  value,
+  onChangeText,
+  placeholder,
+  secureTextEntry = false,
+  keyboardType = "default",
+  style,
+  ...props
+
+}) => {
   const [isSecure, setIsSecure] = useState(secureTextEntry);
-return(
-   <View style={styles.wrapper}>
+  return (
+    <View style={styles.wrapper}>
       <TextInput
         placeholder={placeholder}
         value={value}
@@ -41,11 +44,11 @@ return(
         </TouchableOpacity>
       )}
     </View>
-)
+  )
 };
 
 const styles = StyleSheet.create({
-    container: {
+  container: {
     marginVertical: 8,
   },
   input: {
@@ -57,7 +60,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     backgroundColor: "#fff",
   },
-    wrapper: {
+  wrapper: {
     position: "relative",
     marginTop: 12,
   },
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 8,
     paddingHorizontal: 14,
-    fontSize: 15,
+    fontSize: FONT.regular,
   },
   eyeIcon: {
     position: "absolute",

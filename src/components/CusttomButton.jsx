@@ -1,21 +1,22 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native"
+import { StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native"
+import AppText from "./AppText";
 
-const CusttomButton =({title,onPress,loading=false,style})=>{
-    return (
-        <TouchableOpacity
-        onPress={onPress}
-        disabled={loading}
-        activeOpacity={0.7}
-        style={[styles.button,style]}
-        >
-             {loading ? (
+const CusttomButton = ({ title, onPress, loading = false, style }) => {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={loading}
+      activeOpacity={0.7}
+      style={[styles.button, style]}
+    >
+      {loading ? (
         <ActivityIndicator color="#fff" />
       ) : (
-        <Text style={styles.text}>{title}</Text>
+        <AppText.body style={styles.text}>{title}</AppText.body>
       )}
 
-        </TouchableOpacity>
-    )
+    </TouchableOpacity>
+  )
 };
 
 const styles = StyleSheet.create({
@@ -29,7 +30,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
-    fontSize: 16,
     fontWeight: "600",
   },
 });

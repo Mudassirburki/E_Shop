@@ -7,6 +7,8 @@ import {
 import AppText from "./AppText";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import { FONT, SPACING, SIZE } from "./responsive/AppResponsive";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 const ProductCard = ({ item }) => {
   return (
@@ -16,7 +18,7 @@ const ProductCard = ({ item }) => {
         {/* Left Image */}
         <View style={styles.imageWrapper}>
           <Image source={item.image} style={styles.image} resizeMode="stretch" />
-           {/* Example Overlay Badge */}
+          {/* Example Overlay Badge */}
           {/* <View style={styles.badge}>
              <Ionicons name="bag-handle" size={12} color="#fff" />
           </View> */}
@@ -27,20 +29,20 @@ const ProductCard = ({ item }) => {
           <AppText.body style={styles.title} numberOfLines={2}>
             {item.title}
           </AppText.body>
-          
+
           <AppText.small style={styles.variantText}>
-             :Sizes 9-12 - 99p C&C
+            :Sizes 9-12 - 99p C&C
           </AppText.small>
 
           <View style={styles.ratingRow}>
-             <AppText.small style={styles.ratingNumber}>4.8</AppText.small>
-             <View style={styles.stars}>
-               {[1, 2, 3, 4].map((_, i) => (
-                 <Ionicons key={i} name="star" size={12} color="#F7B305" />
-               ))}
-               <Ionicons name="star-half-outline" size={12} color="#ccc" />
-             </View>
-             <AppText.small style={styles.timeText}>2 Days Ago</AppText.small>
+            <AppText.small style={styles.ratingNumber}>4.8</AppText.small>
+            <View style={styles.stars}>
+              {[1, 2, 3, 4].map((_, i) => (
+                <Ionicons key={i} name="star" size={12} color="#F7B305" />
+              ))}
+              <Ionicons name="star-half-outline" size={12} color="#ccc" />
+            </View>
+            <AppText.small style={styles.timeText}>2 Days Ago</AppText.small>
           </View>
 
           <AppText.small numberOfLines={2} style={styles.description}>
@@ -49,16 +51,16 @@ const ProductCard = ({ item }) => {
 
           <View style={styles.priceRow}>
             <View>
-                <AppText.h3 style={styles.price}>${item.price || "34.00"}</AppText.h3>
-                <View style={styles.discountRow}>
-                     <AppText.small style={styles.discountPercent}>upto 33% off</AppText.small>
-                     <AppText.small style={styles.originalPrice}>$64.00</AppText.small>
-                </View>
+              <AppText.h3 style={styles.price}>${item.price || "34.00"}</AppText.h3>
+              <View style={styles.discountRow}>
+                <AppText.small style={styles.discountPercent}>upto 33% off</AppText.small>
+                <AppText.small style={styles.originalPrice}>$64.00</AppText.small>
+              </View>
             </View>
-            
+
             <TouchableOpacity style={styles.couponBtn}>
-                <AppText.small style={styles.couponText}>H62J190</AppText.small>
-                <Ionicons name="copy-outline" size={14} color="#fff" style={{marginLeft:4}}/>
+              <AppText.small style={styles.couponText}>H62J190</AppText.small>
+              <Ionicons name="copy-outline" size={14} color="#fff" style={{ marginLeft: 4 }} />
             </TouchableOpacity>
           </View>
         </View>
@@ -70,26 +72,26 @@ const ProductCard = ({ item }) => {
       {/* Footer Section */}
       <View style={styles.footer}>
         <View style={styles.userInfo}>
-           <View style={styles.avatarPlaceholder}>
-             <Image 
-                source={require("../../assets/burki.jpg")} 
-                style={styles.avatarImage} 
-             />
-           </View>
-           <AppText.body style={styles.username}>Mudassir Burki</AppText.body>
+          <View style={styles.avatarPlaceholder}>
+            <Image
+              source={require("../../assets/burki.jpg")}
+              style={styles.avatarImage}
+            />
+          </View>
+          <AppText.body style={styles.username}>Mudassir Burki</AppText.body>
         </View>
 
         <View style={styles.socialActions}>
-            <TouchableOpacity style={styles.iconBtn}>
-                <Ionicons name="bookmark-outline" size={20} color="#F06A25" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconBtn}>
-                 <Ionicons name="share-social-outline" size={20} color="#F06A25" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconBtn}>
-                 <Ionicons name="chatbubble-outline" size={20} color="#F06A25" />
-                 <AppText.small style={{marginLeft: 4}}>7</AppText.small>
-            </TouchableOpacity>
+          <TouchableOpacity style={styles.iconBtn}>
+            <Ionicons name="bookmark-outline" size={20} color="#F06A25" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconBtn}>
+            <Ionicons name="share-social-outline" size={20} color="#F06A25" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconBtn}>
+            <Ionicons name="chatbubble-outline" size={20} color="#F06A25" />
+            <AppText.small style={{ marginLeft: 4 }}>7</AppText.small>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: "#fff",
     borderRadius: 16,
-    marginVertical: 10,
+    marginVertical: SPACING.small,
     elevation: 3, // Android shadow
     shadowColor: "#000", // iOS shadow
     shadowOffset: { width: 0, height: 2 },
@@ -112,15 +114,15 @@ const styles = StyleSheet.create({
   },
   topSection: {
     flexDirection: "row",
-    padding: 12,
+    padding: SPACING.small,
   },
   imageWrapper: {
-    width: 120,
-    height: 140,
+    width: wp("30%"),
+    height: wp("35%"),
     borderRadius: 12,
     overflow: "hidden",
     backgroundColor: "#f0f0f0",
-    marginRight: 12,
+    marginRight: SPACING.small,
     position: 'relative',
   },
   image: {
@@ -128,12 +130,12 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   badge: {
-     position: 'absolute',
-     top: 8,
-     left: 8,
-     backgroundColor: 'rgba(0,0,0,0.5)',
-     padding: 4,
-     borderRadius: 4,
+    position: 'absolute',
+    top: SPACING.small,
+    left: SPACING.small,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 4,
+    borderRadius: 4,
   },
   content: {
     flex: 1,
@@ -141,11 +143,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: FONT.regular,
     marginBottom: 2,
   },
   variantText: {
-    fontSize: 12,
+    fontSize: FONT.small,
     color: '#333',
     marginBottom: 4,
   },
@@ -156,13 +158,13 @@ const styles = StyleSheet.create({
   },
   ratingNumber: {
     fontWeight: "bold",
-    fontSize: 12,
+    fontSize: FONT.small,
     marginRight: 4,
   },
   stars: {
     flexDirection: "row",
     gap: 1,
-    marginRight: 'auto', 
+    marginRight: 'auto',
   },
   timeText: {
     fontSize: 10,
@@ -181,7 +183,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: FONT.medium,
   },
   discountRow: {
     flexDirection: 'row',
@@ -189,8 +191,8 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   discountPercent: {
-     fontSize: 10,
-     color: 'red',
+    fontSize: 10,
+    color: 'red',
   },
   originalPrice: {
     fontSize: 10,
@@ -208,7 +210,7 @@ const styles = StyleSheet.create({
   couponText: {
     color: '#fff',
     fontWeight: "600",
-    fontSize: 12,
+    fontSize: FONT.small,
   },
   divider: {
     height: 1,
@@ -219,7 +221,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 12,
+    padding: SPACING.small,
     paddingTop: 8,
   },
   userInfo: {
@@ -239,7 +241,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   username: {
-    fontSize: 12,
+    fontSize: FONT.small,
     fontWeight: "bold",
   },
   socialActions: {

@@ -18,42 +18,19 @@ import { ArrowUpDown } from "lucide-react-native";
 import { ChevronDown } from "lucide-react-native/icons";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const locations = ["Peshawar", "Islamabad", "Karachi", "Lahore"];
+import {
+  LOCATIONS,
+  CATEGORIES,
+  IMAGE_CATEGORIES,
+  PRODUCT_DATA
+} from "../data/dummyData";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
   const [location, setLocation] = useState("");
   const [search, setSearch] = useState("");
-  const [isActive, setIsActive] = useState(null)
-
-  const categories = [
-    { id: 1, icon: "shirt-outline" },
-    { id: 2, icon: "laptop-outline" },
-    { id: 3, icon: "ticket" },
-    { id: 4, icon: "laptop-outline" },
-    { id: 5, icon: "shirt-outline" },
-    { id: 6, icon: "ticket" },
-    { id: 7, icon: "laptop-outline" },
-    { id: 8, icon: "shirt-outline" },
-  ];
-
-  const imageCategories = [
-    { id: 1, image: require("../../assets/homeImage.png") },
-    { id: 2, image: require("../../assets/homeImage.png") },
-    { id: 3, image: require("../../assets/homeImage.png") },
-  ];
-
-  const productCard = [
-    {
-      id: "1",
-      title: "Navy Mixed Stripe Trainers: Sizes 9-12 - 99p C&C",
-      sizes: "9-12",
-      description:
-        "Step up your  casual style  with the Men's  Navy Mixed Stripe Trainers. Combining comfort with eye-catching ",
-      price: "$34.00",
-      image: require("../../assets/cardImage.png"),
-    },
-  ];
+  const [isActive, setIsActive] = useState(null);
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,7 +38,7 @@ const HomeScreen = () => {
       <View style={styles.header}>
         <View style={{ flex: 1, marginRight: 10 }}>
           <CustomDropdown
-            data={locations}
+            data={LOCATIONS}
             placeholder="Select Location"
             onSelect={(item) => setLocation(item)}
           />
@@ -103,7 +80,7 @@ const HomeScreen = () => {
         </View>
 
         <FlatList
-          data={categories}
+          data={CATEGORIES}
           keyExtractor={(item) => item.id.toString()}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -132,8 +109,8 @@ const HomeScreen = () => {
 
 
         <FlatList
-          data={imageCategories}
-          keyExtractor={(item) => item.id}
+          data={IMAGE_CATEGORIES}
+          keyExtractor={(item) => item.id.toString()}
           horizontal
           showsHorizontalScrollIndicator={false}
           style={{ marginTop: 25 }}
@@ -150,16 +127,29 @@ const HomeScreen = () => {
             <ChevronDown size={20} color={"#F06A25"} />
           </View>
         </View>
+        
+       <FlatList
+  data={PRODUCT_DATA}
+  keyExtractor={(item) => item.id.toString()}
+  renderItem={({ item }) => (
+    <Pressable
+      onPress={() => {
+        console.log("Clicked:", item.title);
+        navigation.navigate('ProductDetails', {
+          product: item,
+        });
+      }}
+    >
+      <ProductCard item={item} />
+    </Pressable>
+  )}
+  contentContainerStyle={{ padding: 5 }}
+  scrollEnabled={false}
+/>
 
+       
         <FlatList
-          data={productCard}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <ProductCard item={item} />}
-          contentContainerStyle={{ padding: 5 }}
-          scrollEnabled={false}
-        />
-        <FlatList
-          data={productCard}
+          data={PRODUCT_DATA}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <ProductCard item={item} />}
           contentContainerStyle={{ padding: 5 }}

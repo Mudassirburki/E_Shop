@@ -4,6 +4,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ChatScreen from '../screens/ChatScreen';
 import Settings from '../screens/Settings';
 import Profile from '../screens/Profile';
+import HomeStack from './stacks/HomeStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +15,7 @@ export default function BottomsTabNavigator() {
       tabBar={(props) => <CustomTabs {...props} />}
     >
         
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Chat" component={ChatScreen} />
       <Tab.Screen name="Settings" component={Settings} />
       <Tab.Screen name="Profile" component={Profile} />

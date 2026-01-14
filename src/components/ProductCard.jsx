@@ -30,9 +30,7 @@ const ProductCard = ({ item }) => {
             {item.title}
           </AppText.body>
 
-          <AppText.small style={styles.variantText}>
-            :Sizes 9-12 - 99p C&C
-          </AppText.small>
+          
 
           <View style={styles.ratingRow}>
             <AppText.small style={styles.ratingNumber}>4.8</AppText.small>

@@ -6,6 +6,7 @@ import { AuthContext, AuthProvider } from "../context/AuthContext";
 import HomeScreen from "../screens/HomeScreen";
 import { ActivityIndicator, View } from "react-native";
 import BottomsTabNavigator from "./BottomsTabNavigator";
+import RootStackNavigator from "./stacks/RootStackNavigator";
 
 const RootNavigator=()=>{
      const { userToken, loading } = useContext(AuthContext);
@@ -19,6 +20,6 @@ const RootNavigator=()=>{
     );
   }
 
-  return userToken ? <BottomsTabNavigator /> : <AuthNavigator />;
+  return userToken ? < RootStackNavigator/> : <AuthNavigator />;
 }
 export default RootNavigator;

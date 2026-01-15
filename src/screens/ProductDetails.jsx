@@ -3,14 +3,19 @@ import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppHeader from "../components/Header/AppHeader";
 import Carousel from "react-native-reanimated-carousel";
-import { ProductImages } from "../data/dummyData";
 import { Image } from "expo-image";
+import AppText from "../components/AppText";
+import { FONT } from "../components/responsive/AppResponsive";
+import { Ionicons } from "@expo/vector-icons";
+import CusttomButton from "../components/CusttomButton";
 
 // const { width } = Dimensions.get("window");
 
-const ProductDetails = ({ navigation }) => {
-    const [activeIndex,setActiveIndex]= useState(0);
-    
+const ProductDetails = ({ navigation, route }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const { product } = route.params;
+  const user = product?.user;
+  const images = product.images;
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -33,7 +38,7 @@ const ProductDetails = ({ navigation }) => {
           width={406}
           height={250}
           autoPlay={false}
-          data={ProductImages}
+          data={images}
           scrollAnimationDuration={5000}
           onSnapToItem={(index) => setActiveIndex(index)}
           renderItem={({ item }) => (
@@ -59,17 +64,68 @@ const ProductDetails = ({ navigation }) => {
           )}
         />
         <View style={styles.doteContainer}>
-          {ProductImages.map((_, index) => (
-            <View
-              key={index}
-              style={[
-              styles.dot,
-              activeIndex === index && styles.activeDot,
-            ]}
-            />
-          ))}
+          <View style={styles.dotContainer}>
+            {images.map((_, index) => (
+              <View
+                key={index}
+                style={[styles.dot, activeIndex === index && styles.activeDot]}
+              />
+            ))}
+          </View>
         </View>
-
+        <View style={styles.ratingRow}>
+          <AppText.small style={styles.ratingNumber}>4.8</AppText.small>
+          <View style={styles.stars}>
+            {[1, 2, 3, 4].map((_, i) => (
+              <Ionicons key={i} name="star" size={12} color="#F7B305" />
+            ))}
+            <Ionicons name="star-half-outline" size={12} color="#ccc" />
+          </View>
+          <AppText.small style={styles.timeText}>2 Days Ago</AppText.small>
+        </View>
+        <AppText.body numberOfLines={2} style={{ padding: 10 }}>
+          {product.title}
+        </AppText.body>
+        <View style={{ flexDirection: "row" }}>
+          <AppText.body style={[styles.price, { padding: 15 }]}>
+            {product.price}
+          </AppText.body>
+          <AppText.body
+            style={{
+              padding: 15,
+              textDecorationLine: "line-through",
+              color: "#888",
+            }}
+          >
+            {product.originalPrice}
+          </AppText.body>
+          <AppText.body
+            style={{
+              padding: 15,
+              color: "#E97639",
+              justifyContent: "flex-end",
+              fontWeight: "bold",
+              marginLeft: "auto",
+            }}
+          >
+            {product.discount} off
+          </AppText.body>
+        </View>
+        <View style={styles.userRow}>
+          <Image source={user.avatar} style={styles.userImage} />
+          <AppText.body style={styles.userName}>{user.name}</AppText.body>
+        </View>
+        <AppText.h3 style={{padding:10,fontWeight:"bold"}}>Description</AppText.h3>
+        <AppText.body style={[styles.description, { padding: 10 }]}>
+          {product.description}
+        </AppText.body>
+        <CusttomButton  title="Get Deal" style={{width:"90%",alignSelf:"center"}}/>
+        <View style={styles.divider} />
+        <View style={{flexDirection:"row",padding:15}}>
+          <Ionicons name="chatbubbles-outline" size={22} color="#000" style={{marginTop:3}}/>
+          <AppText.body style={{}}>12 Comments</AppText.body>
+          <AppText.body style={{marginLeft:"auto"}}>Show All</AppText.body>
+        </View>
       </SafeAreaView>
     </View>
   );
@@ -94,22 +150,65 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF99",
   },
   dotContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 10, // 🔹 bottom of image
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   dot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#ccc', // inactive color
+    backgroundColor: "#ccc", // inactive color
     marginHorizontal: 5,
   },
   activeDot: {
-    backgroundColor: '#E97639', // active color
-    
+    backgroundColor: "#E97639", // active color
   },
+  ratingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 6,
+    padding: 10,
+  },
+  ratingNumber: {
+    fontWeight: "bold",
+    fontSize: FONT.small,
+    marginRight: 4,
+  },
+  stars: {
+    flexDirection: "row",
+    gap: 1,
+    marginRight: "auto",
+  },
+  timeText: {
+    fontSize: 10,
+    color: "#999",
+  },
+  userRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  paddingHorizontal: 15,
+  paddingVertical: 8,
+},
+
+userImage: {
+  width: 28,
+  height: 28,
+  borderRadius: 14,
+  marginRight: 8,
+},
+
+userName: {
+  fontSize: 14,
+  fontWeight: "600",
+},
+divider: {
+    height: 1,
+    backgroundColor: "gray",
+   marginTop:20
+  },
+
 });

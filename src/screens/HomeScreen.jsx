@@ -43,13 +43,14 @@ const HomeScreen = () => {
             onSelect={(item) => setLocation(item)}
           />
         </View>
-
+        <Pressable onPress={() => navigation.navigate('NotificationScreen')}>
         <Ionicons
           style={{ marginTop: 10 }}
           name="notifications-outline"
           size={25}
           color={"black"}
         />
+        </Pressable>
       </View>
 
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }} showsVerticalScrollIndicator={false}>
@@ -148,13 +149,13 @@ const HomeScreen = () => {
 />
 
        
-        <FlatList
+        {/* <FlatList
           data={PRODUCT_DATA}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <ProductCard item={item} />}
           contentContainerStyle={{ padding: 5 }}
           scrollEnabled={false}
-        />
+        /> */}
       </ScrollView>
     </SafeAreaView>
   );

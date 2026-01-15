@@ -147,7 +147,7 @@ const SignUp = () => {
         {error ? (
           <AppText.small style={{ color: "red", marginTop: 10 }}>{error}</AppText.small>
         ) : null}
-        <CusttomButton title="Sign Up" onPress={handleSignUp} />
+        <CusttomButton title="Sign Up" onPress={handleSignUp} color="#2E55BA" />
         <View
           style={{
             flexDirection: "row",

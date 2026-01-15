@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import * as LucideIcons from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "../../theme/Colors";
 
@@ -8,41 +9,49 @@ const AppHeader = ({
   title,
   leftIcon,
   rightIcon,
+  leftIconType = "material",   // 👈 default
+  rightIconType = "material",  // 👈 default
   onLeftPress,
   onRightPress,
 }) => {
   const insets = useSafeAreaInsets();
 
+  const renderIcon = (iconName, type, onPress) => {
+    if (!iconName) return <View style={styles.placeholder} />;
+
+    if (type === "lucide") {
+      const LucideIcon = LucideIcons[iconName];
+      if (!LucideIcon) return <View style={styles.placeholder} />;
+
+      return (
+        <TouchableOpacity onPress={onPress} style={styles.iconButton}>
+          <LucideIcon size={24} color={Colors.foreground} />
+        </TouchableOpacity>
+      );
+    }
+
+    // MaterialCommunityIcons (default)
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.iconButton}>
+        <Icon name={iconName} size={24} color={Colors.foreground} />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
-      {/* Left Icon */}
-      <TouchableOpacity onPress={onLeftPress} style={styles.iconButton}>
-        {leftIcon ? (
-          <Icon name={leftIcon} size={24} color={Colors.foreground} />
-        ) : (
-          <View style={styles.placeholder} />
-        )}
-      </TouchableOpacity>
+      {renderIcon(leftIcon, leftIconType, onLeftPress)}
 
-      {/* Title */}
       <Text style={styles.title} numberOfLines={1}>
         {title}
       </Text>
 
-      {/* Right Icon */}
-      <TouchableOpacity onPress={onRightPress} style={styles.iconButton}>
-        {rightIcon ? (
-          <Icon name={rightIcon} size={24} color={Colors.foreground} />
-        ) : (
-          <View style={styles.placeholder} />
-        )}
-      </TouchableOpacity>
+      {renderIcon(rightIcon, rightIconType, onRightPress)}
     </View>
   );
 };
 
 export default AppHeader;
-
 const styles = StyleSheet.create({
   container: {
     minHeight: 56,
@@ -50,9 +59,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: Colors.background,
+    borderBottomWidth: 1,
     borderBottomColor: Colors.muted,
     paddingHorizontal: 16,
-    paddingBottom: 8,
+    paddingBottom: 15,
   },
   title: {
     flex: 1,
@@ -61,6 +71,13 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: Colors.foreground,
   },
-  iconButton: { width: 40, alignItems: "center", justifyContent: "center" },
-  placeholder: { width: 24, height: 24 },
+  iconButton: {
+    width: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  placeholder: {
+    width: 24,
+    height: 24,
+  },
 });

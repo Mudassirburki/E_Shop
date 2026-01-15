@@ -17,7 +17,7 @@ const ProductCard = ({ item }) => {
       <TouchableOpacity style={styles.topSection} activeOpacity={0.8}>
         {/* Left Image */}
         <View style={styles.imageWrapper}>
-          <Image source={item.image} style={styles.image} resizeMode="stretch" />
+          <Image source={item.images?.[2]} style={styles.image} resizeMode="stretch" />
           {/* Example Overlay Badge */}
           {/* <View style={styles.badge}>
              <Ionicons name="bag-handle" size={12} color="#fff" />
@@ -51,8 +51,8 @@ const ProductCard = ({ item }) => {
             <View>
               <AppText.h3 style={styles.price}>${item.price || "34.00"}</AppText.h3>
               <View style={styles.discountRow}>
-                <AppText.small style={styles.discountPercent}>upto 33% off</AppText.small>
-                <AppText.small style={styles.originalPrice}>$64.00</AppText.small>
+                <AppText.small style={styles.discountPercent}>{item.discount}</AppText.small>
+                <AppText.small style={styles.originalPrice}>{item.originalPrice}</AppText.small>
               </View>
             </View>
 

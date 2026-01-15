@@ -94,7 +94,7 @@ const LoginScreen = () => {
           <AppText.small style={{ color: "red", marginTop: 10 }}>{error}</AppText.small>) : null}
         <AppText.medium style={{ alignSelf: "flex-end", marginVertical: SPACING.small }}>Forgot password?</AppText.medium>
 
-        <CusttomButton title="Login" onPress={handleLogin} />
+        <CusttomButton title="Login" onPress={handleLogin} color="#2E55BA" />
         <AppText.small style={{ alignSelf: "center", marginVertical: SPACING.medium }}>
           or login in with
         </AppText.small>

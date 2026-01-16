@@ -63,8 +63,31 @@ export const Notification_Settings = [
   {
     id:1,
     title:"Add New Keyword",
-    icon:"plus-circle"
+    icon:"plus",
+    type:"personalized"
   },
   {
-  }
+    id:2,
+    title:"SomeOne mentioned you",
+    icon:"bell",
+    type:"general"
+  },
+  {
+    id:3,
+    title:"Daily Picks",
+    icon:"chat",
+    type:"general"
+  },
+  {
+    id:4,
+    title:"Comment Response",
+    icon:"tag",
+    type:"general"
+  },
+  {
+    id:5,
+    title:"New Follower Alert",
+    icon:"account-plus",
+    type:"general"
+  },
 ]

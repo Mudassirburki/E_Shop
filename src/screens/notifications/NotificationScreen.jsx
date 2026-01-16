@@ -18,19 +18,19 @@ const NotificationScreen = () => {
         rightIcon="BellDot"
         rightIconType="lucide"
         onLeftPress={() => navigation.goBack()}
-        onRightPress={()=>navigation.navigate('NotificationSettings')}
+        onRightPress={() => navigation.navigate('NotificationSettings')}
       />
 
       <SafeAreaView
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-           <FlatList
-              data={NOTIFICATION_DATA}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <NotificationCard item={item} variant="notification" />}
-                contentContainerStyle={{ paddingBottom: 20 }}
-                showsVerticalScrollIndicator={false}
-           />
-        </SafeAreaView>
+        <FlatList
+          data={NOTIFICATION_DATA}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => <NotificationCard item={item} variant="notification" />}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          showsVerticalScrollIndicator={false}
+        />
+      </SafeAreaView>
     </View>
   );
 };

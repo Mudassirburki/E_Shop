@@ -6,17 +6,21 @@ import { FONT, SPACING } from "./responsive/AppResponsive";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const NotificationCard = ({ item, onPress, variant = "notification" }) => {
-  const isSettings = variant === "settings";
+  const isSettings = variant === "settings" || variant === "personalized";
+  const isAdd = variant === "add";
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={[styles.cardContainer, isSettings && styles.settingsContainer]}>
-        {!isSettings ? (
+      <View style={[
+        styles.cardContainer,
+        (isSettings || isAdd) && styles.settingsContainer,
+      ]}>
+        {!isSettings && !isAdd ? (
           <>
             {/* Left side: Circle Image */}
             <View style={styles.imageWrapper}>
               <Image
-                source={item.avatar} // product image
+                source={item?.avatar} // product image
                 style={styles.image}
               />
             </View>
@@ -25,15 +29,24 @@ const NotificationCard = ({ item, onPress, variant = "notification" }) => {
             <View style={styles.content}>
               <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                 <AppText.body style={styles.title} numberOfLines={1}>
-                  {item.title}
+                  {item?.title}
                 </AppText.body>
-                <AppText.small style={styles.time}>{item.time}</AppText.small>
+                <AppText.small style={styles.time}>{item?.time}</AppText.small>
               </View>
 
               <AppText.small style={styles.description} numberOfLines={2}>
-                {item.description}
+                {item?.description}
               </AppText.small>
             </View>
+          </>
+        ) : isAdd ? (
+          <>
+            <View style={styles.content}>
+              <AppText.body style={styles.settingsTitle}>
+                {item?.title || "Add New Keyword"}
+              </AppText.body>
+            </View>
+            <Icon name="plus" size={24} color="#1A237E" />
           </>
         ) : (
           <>
@@ -44,10 +57,22 @@ const NotificationCard = ({ item, onPress, variant = "notification" }) => {
               </AppText.body>
             </View>
 
-            {/* Right side: Icon */}
-            {item.icon && (
-              <Icon name={item.icon} size={24} color="#000" />
-            )}
+            {/* Right side: Icon(s) */}
+            <View style={styles.iconWrapper}>
+              {item.icons ? (
+                item.icons.map((iconName, index) => (
+                  <Icon
+                    key={index}
+                    name={iconName}
+                    size={20}
+                    color="#AAA"
+                    style={{ marginLeft: 8 }}
+                  />
+                ))
+              ) : (
+                item.icon && <Icon name={item.icon} size={24} color="#AAA" />
+              )}
+            </View>
           </>
         )}
       </View>
@@ -76,14 +101,12 @@ const styles = StyleSheet.create({
   imageWrapper: {
     width: 50,
     height: 50,
-    borderRadius: 25, // 🔹 makes image circle
+    borderRadius: 25,
     overflow: "hidden",
     marginRight: SPACING.small,
     backgroundColor: "#f0f0f0",
     alignItems: "center",
     justifyContent: "center",
-
-
   },
   image: {
     width: "100%",
@@ -118,4 +141,8 @@ const styles = StyleSheet.create({
     fontSize: FONT.tiny,
     color: "#999",
   },
+  iconWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  }
 });

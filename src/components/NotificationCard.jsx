@@ -4,79 +4,86 @@ import AppText from "./AppText";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { FONT, SPACING } from "./responsive/AppResponsive";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import ListRow from "./common/ListRow";
 
 const NotificationCard = ({ item, onPress, variant = "notification" }) => {
   const isSettings = variant === "settings" || variant === "personalized";
   const isAdd = variant === "add";
 
+  const renderLeft = () => {
+    if (isAdd || isSettings) return null;
+    return (
+      <View style={styles.imageWrapper}>
+        <Image source={item?.avatar} style={styles.image} />
+      </View>
+    );
+  };
+
+  const renderCenter = () => {
+    if (isAdd) {
+      return (
+        <AppText.body style={styles.settingsTitle}>
+          {item?.title || "Add New Keyword"}
+        </AppText.body>
+      );
+    }
+    if (isSettings) {
+      return (
+        <AppText.body style={styles.settingsTitle}>
+          {item.title}
+        </AppText.body>
+      );
+    }
+    return (
+      <View style={styles.content}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+          <AppText.body style={styles.title} numberOfLines={1}>
+            {item?.title}
+          </AppText.body>
+          <AppText.small style={styles.time}>{item?.time}</AppText.small>
+        </View>
+        <AppText.small style={styles.description} numberOfLines={2}>
+          {item?.description}
+        </AppText.small>
+      </View>
+    );
+  };
+
+  const renderRight = () => {
+    if (isAdd) return <Icon name="plus" size={24} color="#1A237E" />;
+    if (isSettings) {
+      return (
+        <View style={styles.iconWrapper}>
+          {item.icons ? (
+            item.icons.map((iconName, index) => (
+              <Icon
+                key={index}
+                name={iconName}
+                size={20}
+                color="#AAA"
+                style={{ marginLeft: 8 }}
+              />
+            ))
+          ) : (
+            item.icon && <Icon name={item.icon} size={24} color="#AAA" />
+          )}
+        </View>
+      );
+    }
+    return null;
+  };
+
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={[
+    <ListRow
+      onPress={onPress}
+      left={renderLeft()}
+      center={renderCenter()}
+      right={renderRight()}
+      containerStyle={[
         styles.cardContainer,
         (isSettings || isAdd) && styles.settingsContainer,
-      ]}>
-        {!isSettings && !isAdd ? (
-          <>
-            {/* Left side: Circle Image */}
-            <View style={styles.imageWrapper}>
-              <Image
-                source={item?.avatar} // product image
-                style={styles.image}
-              />
-            </View>
-
-            {/* Right side: Text Content */}
-            <View style={styles.content}>
-              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                <AppText.body style={styles.title} numberOfLines={1}>
-                  {item?.title}
-                </AppText.body>
-                <AppText.small style={styles.time}>{item?.time}</AppText.small>
-              </View>
-
-              <AppText.small style={styles.description} numberOfLines={2}>
-                {item?.description}
-              </AppText.small>
-            </View>
-          </>
-        ) : isAdd ? (
-          <>
-            <View style={styles.content}>
-              <AppText.body style={styles.settingsTitle}>
-                {item?.title || "Add New Keyword"}
-              </AppText.body>
-            </View>
-            <Icon name="plus" size={24} color="#1A237E" />
-          </>
-        ) : (
-          <>
-            {/* Left side: Text Content */}
-            <View style={styles.content}>
-              <AppText.body style={styles.settingsTitle}>
-                {item.title}
-              </AppText.body>
-            </View>
-
-            {/* Right side: Icon(s) */}
-            <View style={styles.iconWrapper}>
-              {item.icons ? (
-                item.icons.map((iconName, index) => (
-                  <Icon
-                    key={index}
-                    name={iconName}
-                    size={20}
-                    color="#AAA"
-                    style={{ marginLeft: 8 }}
-                  />
-                ))
-              ) : (
-                item.icon && <Icon name={item.icon} size={24} color="#AAA" />
-              )}
-            </View>
-          </>
-        )}
-      </View>
-    </TouchableOpacity>
+      ]}
+    />
   );
 };
 

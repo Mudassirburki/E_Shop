@@ -92,3 +92,78 @@ export const Notification_Settings = [
   },
 ];
 export const SUGGESTED_KEYS = ["Laptops", "Mobiles", "Watches", "Furniture", "Shoes", "Fashion"];
+export const CHAT_DATA = [
+  {
+    id: "1",
+    name: "Mudassir Burki",
+    avatar: require("../../assets/burki.jpg"),
+    lastMessage: "Hello, is the item still available?",
+    time: "2:30 PM",
+    unreadCount: 0,
+  },
+  {
+    id: "2",
+    name: "Ammar barki",
+    avatar: require("../../assets/burki.jpg"),
+    lastMessage: "Can we negotiate the price?",
+    time: "1:15 PM",
+    unreadCount: 2,
+  },
+];
+export const User_Profile=[
+  {
+    id:1,
+    name:"Mudassir Burki",
+    email:"mudassirburki@gmail.com",
+    phone:"+923001234567",
+    avatar:require("../../assets/burki.jpg")
+  }
+]
+
+export const SETTINGS_MENU = [
+  {
+    id: 1,
+    title: "Account Settings",
+    icon: "account-circle-outline",
+    type: "link"
+  },
+  {
+    id: 2,
+    title: "Language",
+    icon: "web",
+    type: "value",
+    value: "English"
+  },
+  {
+    id: 3,
+    title: "Notification",
+    icon: "bell-outline",
+    type: "toggle",
+    value: true
+  },
+  {
+    id: 4,
+    title: "Theme",
+    icon: "theme-light-dark",
+    type: "value",
+    value: "Light Mode"
+  },
+  {
+    id: 5,
+    title: "Help & Support",
+    icon: "help-circle-outline",
+    type: "link"
+  },
+  {
+    id: 6,
+    title: "Privacy Policy",
+    icon: "lock-outline",
+    type: "link"
+  },
+  {
+    id: 7,
+    title: "Logout",
+    icon: "logout",
+    type: "logout"
+  }
+];

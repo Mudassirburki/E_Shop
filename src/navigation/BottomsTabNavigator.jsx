@@ -5,13 +5,16 @@ import ChatScreen from '../screens/ChatScreen';
 import Settings from '../screens/Settings';
 import Profile from '../screens/Profile';
 import HomeStack from './stacks/HomeStack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomsTabNavigator() {
   return (
     <Tab.Navigator
-    screenOptions={{headerShown:false}}
+   screenOptions={{
+        headerShown:false
+      }}
       tabBar={(props) => <CustomTabs {...props} />}
     >
         

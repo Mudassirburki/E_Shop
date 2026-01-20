@@ -1,23 +1,24 @@
-import { StyleSheet } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import AppText from '../components/AppText'
+import { View, FlatList, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AppHeader from "../components/Header/AppHeader";
+import ChatCard from "../components/ChatCard";
+import { CHAT_DATA } from "../data/dummyData";
 
 const ChatScreen = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <AppText.h2>ChatScreen</AppText.h2>
-    </SafeAreaView>
-  )
-}
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      
+      <AppHeader
+        title="Chats"
+      />      
+        <FlatList
+          data={CHAT_DATA}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => <ChatCard item={item} />}
+          contentContainerStyle={{ padding: 10 }}
+        />
+    </View>
+  );
+};
 
-export default ChatScreen
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff'
-  }
-})
+export default ChatScreen;

@@ -1,12 +1,12 @@
 import { FlatList, StyleSheet, View, Switch, TouchableOpacity } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { AuthContext } from '../context/AuthContext';
-import AppHeader from '../components/Header/AppHeader';
-import { User_Profile, SETTINGS_MENU } from '../data/dummyData';
-import ProfileSettingsCard from '../components/ProfileSettingsCard';
-import ListRow from '../components/common/ListRow';
-import AppText from '../components/AppText';
+import { AuthContext } from '../../context/AuthContext';
+import AppHeader from '../../components/Header/AppHeader';
+import { User_Profile, SETTINGS_MENU } from '../../data/dummyData';
+import ProfileSettingsCard from '../../components/ProfileSettingsCard';
+import ListRow from '../../components/common/ListRow';
+import AppText from '../../components/AppText';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { ChevronRight } from 'lucide-react-native';
 
@@ -15,44 +15,58 @@ const Settings = () => {
   const navigation = useNavigation();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
-  const handleLogout = async () => {
+  const handleItemPress = async (item) => {
+  if (item.type === 'logout') {
     await logout();
+    return;
   }
+
+  if (item.type === 'navigation' && item.screen) {
+    navigation.navigate(item.screen);
+  }
+};
+
+
 
   const renderMenuItem = ({ item }) => {
-    const isLogout = item.type === 'logout';
+  const isLogout = item.type === 'logout';
 
-    return (
-      <ListRow
-        onPress={isLogout ? handleLogout : () => { }}
-        containerStyle={styles.menuItem}
-        left={
-          <View style={styles.iconWrapper}>
-            <Icon name={item.icon} size={24} color={isLogout ? "red" : "#333"} />
-          </View>
-        }
-        center={
-          <AppText.body style={[styles.menuTitle, isLogout && styles.logoutText]}>
-            {item.title}
-          </AppText.body>
-        }
-        right={
-          item.type === 'toggle' ? (
-            <Switch
-              value={notificationsEnabled}
-              onValueChange={setNotificationsEnabled}
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={notificationsEnabled ? "#81b0ff" : "#f4f3f4"}
-            />
-          ) : item.type === 'value' ? (
-            <AppText.small style={styles.valueText}>{item.value}</AppText.small>
-          ) : !isLogout ? (
-            <ChevronRight size={20} color="#ccc" />
-          ) : null
-        }
-      />
-    )
-  }
+  return (
+    <ListRow
+      onPress={() => handleItemPress(item)}
+      containerStyle={styles.menuItem}
+      left={
+        <View style={styles.iconWrapper}>
+          <Icon
+            name={item.icon}
+            size={24}
+            color={isLogout ? 'red' : '#333'}
+          />
+        </View>
+      }
+      center={
+        <AppText.body style={[styles.menuTitle, isLogout && styles.logoutText]}>
+          {item.title}
+        </AppText.body>
+      }
+      right={
+        item.type === 'toggle' ? (
+          <Switch
+            value={notificationsEnabled}
+            onValueChange={setNotificationsEnabled}
+          />
+        ) : item.type === 'value' ? (
+          <AppText.small style={styles.valueText}>
+            {item.value}
+          </AppText.small>
+        ) : !isLogout ? (
+          <ChevronRight size={20} color="#ccc" />
+        ) : null
+      }
+    />
+  );
+};
+
 
   return (
     <View style={styles.container}>

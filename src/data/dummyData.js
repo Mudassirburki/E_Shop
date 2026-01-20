@@ -1,5 +1,6 @@
 import { icon } from "@fortawesome/fontawesome-svg-core";
 
+
 export const LOCATIONS = ["Peshawar", "Islamabad", "Karachi", "Lahore"];
 
 export const CATEGORIES = [
@@ -125,7 +126,8 @@ export const SETTINGS_MENU = [
     id: 1,
     title: "Account Settings",
     icon: "account-circle-outline",
-    type: "link"
+    type: "navigation",
+    screen:"AccountSettings"
   },
   {
     id: 2,
@@ -167,3 +169,17 @@ export const SETTINGS_MENU = [
     type: "logout"
   }
 ];
+
+export const toggles = [
+  { id: 1, title: 'Show My Availability', value: true },
+  { id: 2, title: 'Member Following', value: false },
+  { id: 3, title: 'Receive Messages from Others', value: true },
+  { id: 4, title: 'Receive Messages from Others', value: false },
+];
+
+export const accountDeletion = {
+  id: 5,
+  title: 'Permanently Delete My Account',
+  icon: 'person-remove-outline',
+  
+};

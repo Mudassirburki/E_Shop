@@ -1,0 +1,23 @@
+{
+    "translation": {
+        "welcome": "Welcome",
+        "home": "Home",
+        "profile": "Profile",
+        "settings": "Settings",
+        "language": "Language",
+        "selectLanguage": "Select Language",
+        "english": "English",
+        "urdu": "Urdu",
+        "selectLocation": "Select Location",
+        "searchPlaceholder": "Search here...",
+        "topCategories": "Top Categories",
+        "hotDeals": "Hot Deals",
+        "sortBy": "Sort by: All",
+        "productDetails": "Product Details",
+        "description": "Description",
+        "getDeal": "Get Deal",
+        "comments": "Comments",
+        "showAll": "Show All",
+        "off": "off"
+    }
+}

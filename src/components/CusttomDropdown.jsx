@@ -1,9 +1,11 @@
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import AppText from "./AppText";
+import { ThemeContext } from "../context/ThemeContext";
 
 const CustomDropdown = ({ data, onSelect, placeholder }) => {
+  const { colors } = useContext(ThemeContext);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -21,27 +23,27 @@ const CustomDropdown = ({ data, onSelect, placeholder }) => {
         onPress={() => setOpen(!open)}
       >
         <Ionicons name="location" size={20} color="#BB4100" />
-        <AppText.body style={styles.text}>
+        <AppText.body style={[styles.text, { color: colors.foreground }]}>
           {selected ? selected : placeholder}
         </AppText.body>
         <Ionicons
           name={open ? "chevron-up" : "chevron-down"}
           size={20}
           style={{ marginRight: 19 }}
-          color="#555"
+          color={colors.secondary}
         />
       </TouchableOpacity>
 
       {/* Dropdown List */}
       {open && (
-        <View style={styles.list}>
+        <View style={[styles.list, { backgroundColor: colors.card, borderColor: colors.border }]}>
           {data.map((item, index) => (
             <TouchableOpacity
               key={index}
-              style={styles.item}
+              style={[styles.item, { borderBottomColor: colors.border }]}
               onPress={() => handleSelect(item)}
             >
-              <AppText.body>{item}</AppText.body>
+              <AppText.body style={{ color: colors.foreground }}>{item}</AppText.body>
             </TouchableOpacity>
           ))}
         </View>
@@ -66,10 +68,8 @@ const styles = StyleSheet.create({
   },
   list: {
     borderWidth: 1,
-    borderColor: "#ccc",
     borderRadius: 10,
     marginTop: 5,
-    backgroundColor: "#fff",
   },
   item: {
     padding: 14,

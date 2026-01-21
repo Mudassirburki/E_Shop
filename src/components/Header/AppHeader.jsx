@@ -5,6 +5,9 @@ import * as LucideIcons from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "../../theme/Colors";
 
+import { useContext } from "react";
+import { ThemeContext } from "../../context/ThemeContext";
+
 const AppHeader = ({
   title,
   leftIcon,
@@ -13,8 +16,10 @@ const AppHeader = ({
   rightIconType = "material",  // 👈 default
   onLeftPress,
   onRightPress,
+  style,
 }) => {
   const insets = useSafeAreaInsets();
+  const { colors } = useContext(ThemeContext);
 
   const renderIcon = (iconName, type, onPress) => {
     if (!iconName) return <View style={styles.placeholder} />;
@@ -25,7 +30,7 @@ const AppHeader = ({
 
       return (
         <TouchableOpacity onPress={onPress} style={styles.iconButton}>
-          <LucideIcon size={24} color={Colors.foreground} />
+          <LucideIcon size={24} color={colors.foreground} />
         </TouchableOpacity>
       );
     }
@@ -33,16 +38,16 @@ const AppHeader = ({
     // MaterialCommunityIcons (default)
     return (
       <TouchableOpacity onPress={onPress} style={styles.iconButton}>
-        <Icon name={iconName} size={24} color={Colors.foreground} />
+        <Icon name={iconName} size={24} color={colors.foreground} />
       </TouchableOpacity>
     );
   };
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={[styles.container, { paddingTop: insets.top, backgroundColor: colors.background, borderBottomColor: colors.border }, style]}>
       {renderIcon(leftIcon, leftIconType, onLeftPress)}
 
-      <Text style={styles.title} numberOfLines={1}>
+      <Text style={[styles.title, { color: colors.foreground }]} numberOfLines={1}>
         {title}
       </Text>
 

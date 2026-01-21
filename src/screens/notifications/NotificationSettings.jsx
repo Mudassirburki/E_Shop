@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import AppHeader from '../../components/Header/AppHeader'
 import { useNavigation } from '@react-navigation/native';
 import { Notification_Settings, SUGGESTED_KEYS } from '../../data/dummyData';
@@ -7,6 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AppText from '../../components/AppText';
 import Modal from '../../components/modal/Modal';
 import { TextInput, TouchableOpacity, View, FlatList, StyleSheet } from 'react-native';
+import { ThemeContext } from '../../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -14,6 +16,8 @@ const NotificationSettings = () => {
   const navigation = useNavigation();
   const [showModal, setShowModal] = useState(false);
   const [keyword, setKeyword] = useState('');
+   const { colors } = useContext(ThemeContext);
+    const { t } = useTranslation();
   const [personalizedKeywords, setPersonalizedKeywords] = useState(
     Notification_Settings.filter(item => item.type === "personalized" && item.id !== 1)
   );
@@ -34,7 +38,7 @@ const NotificationSettings = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,, { backgroundColor: colors.background }]}>
       <AppHeader
         title="Notification Preferences"
         leftIcon="ArrowLeft"

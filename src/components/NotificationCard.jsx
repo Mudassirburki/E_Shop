@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import AppText from "./AppText";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { FONT, SPACING } from "./responsive/AppResponsive";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ListRow from "./common/ListRow";
+import { ThemeContext } from "../context/ThemeContext";
 
 const NotificationCard = ({ item, onPress, variant = "notification" }) => {
+  const { colors } = useContext(ThemeContext);
   const isSettings = variant === "settings" || variant === "personalized";
   const isAdd = variant === "add";
 
@@ -22,14 +24,14 @@ const NotificationCard = ({ item, onPress, variant = "notification" }) => {
   const renderCenter = () => {
     if (isAdd) {
       return (
-        <AppText.body style={styles.settingsTitle}>
+        <AppText.body style={[styles.settingsTitle, { color: colors.secondary }]}>
           {item?.title || "Add New Keyword"}
         </AppText.body>
       );
     }
     if (isSettings) {
       return (
-        <AppText.body style={styles.settingsTitle}>
+        <AppText.body style={[styles.settingsTitle, { color: colors.secondary }]}>
           {item.title}
         </AppText.body>
       );
@@ -37,12 +39,12 @@ const NotificationCard = ({ item, onPress, variant = "notification" }) => {
     return (
       <View style={styles.content}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <AppText.body style={styles.title} numberOfLines={1}>
+          <AppText.body style={[styles.title, , { color: colors.secondary }]} numberOfLines={1}>
             {item?.title}
           </AppText.body>
-          <AppText.small style={styles.time}>{item?.time}</AppText.small>
+          <AppText.small style={[styles.time, , { color: colors.secondary }]}>{item?.time}</AppText.small>
         </View>
-        <AppText.small style={styles.description} numberOfLines={2}>
+        <AppText.small style={[styles.description, , { color: colors.secondary }]} numberOfLines={2}>
           {item?.description}
         </AppText.small>
       </View>
@@ -50,7 +52,7 @@ const NotificationCard = ({ item, onPress, variant = "notification" }) => {
   };
 
   const renderRight = () => {
-    if (isAdd) return <Icon name="plus" size={24} color="#1A237E" />;
+    if (isAdd) return <Icon name="plus" size={24} color={colors.foreground} />;
     if (isSettings) {
       return (
         <View style={styles.iconWrapper}>
@@ -81,6 +83,7 @@ const NotificationCard = ({ item, onPress, variant = "notification" }) => {
       right={renderRight()}
       containerStyle={[
         styles.cardContainer,
+        { backgroundColor: colors.card, shadowColor: colors.border },
         (isSettings || isAdd) && styles.settingsContainer,
       ]}
     />
@@ -94,7 +97,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: wp("90%"),
     padding: SPACING.small,
-    backgroundColor: "#fff",
     borderRadius: 12,
     marginVertical: 6,
     marginHorizontal: 12,

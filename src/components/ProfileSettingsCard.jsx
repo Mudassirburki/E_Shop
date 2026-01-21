@@ -1,15 +1,18 @@
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import AppText from "./AppText";
 import ListRow from "./common/ListRow";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const ProfileSettingsCard = ({ user, onEdit }) => {
+  const { colors } = useContext(ThemeContext);
   return (
     <ListRow
       left={<Image source={user.avatar} style={styles.avatar} />}
       center={
         <View style={styles.middle}>
           <AppText.body style={styles.name}>{user.name}</AppText.body>
-          <AppText.small numberOfLines={1} style={styles.email}>
+          <AppText.small numberOfLines={1} style={[styles.email, { color: colors.secondary }]}>
             {user.email}
           </AppText.small>
         </View>
@@ -21,10 +24,11 @@ const ProfileSettingsCard = ({ user, onEdit }) => {
           </TouchableOpacity>
         </View>
       }
-      containerStyle={styles.container}
+      containerStyle={[styles.container, { borderColor: colors.border }]}
     />
   );
 };
+
 
 export default ProfileSettingsCard;
 const styles = StyleSheet.create({
@@ -32,6 +36,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderColor: "#eee",
+    borderRadius: 12
   },
 
   avatar: {

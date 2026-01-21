@@ -132,6 +132,7 @@ export const SETTINGS_MENU = [
   {
     id: 2,
     title: "Language",
+    name: "language",
     icon: "web",
     type: "value",
     value: "English"
@@ -146,6 +147,7 @@ export const SETTINGS_MENU = [
   {
     id: 4,
     title: "Theme",
+    name: "theme",
     icon: "theme-light-dark",
     type: "value",
     value: "Light Mode"

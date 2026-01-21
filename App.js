@@ -1,8 +1,10 @@
+import './src/i18n/config';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet,  View } from 'react-native';
 import AppText from "./src/components/AppText"
 import RootNavigator from './src/navigation/RootNavigator';
 import { AuthProvider } from './src/context/AuthContext';
+import { ThemeProvider } from './src/context/ThemeContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 
@@ -18,9 +20,11 @@ export default function App() {
   }
   return (
     <AuthProvider>
-      <NavigationContainer>
-        <RootNavigator/>
-      </NavigationContainer>
+      <ThemeProvider>
+        <NavigationContainer>
+          <RootNavigator/>
+        </NavigationContainer>
+      </ThemeProvider>
     </AuthProvider>
    
   );

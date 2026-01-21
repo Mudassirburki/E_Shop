@@ -1,0 +1,23 @@
+{
+    "translation": {
+        "welcome": "خوش آمدید",
+        "home": "ہوم",
+        "profile": "پروفائل",
+        "settings": "سیٹنگز",
+        "language": "زبان",
+        "selectLanguage": "زبان منتخب کریں",
+        "english": "انگریزی",
+        "urdu": "اردو",
+        "selectLocation": "مقام منتخب کریں",
+        "searchPlaceholder": "یہاں تلاش کریں...",
+        "topCategories": "اہم زمرے",
+        "hotDeals": "گرم ڈیلز",
+        "sortBy": "ترتیب دیں: سب",
+        "productDetails": "مصنوعات کی تفصیلات",
+        "description": "تفصیل",
+        "getDeal": "ڈیل حاصل کریں",
+        "comments": "تبصرے",
+        "showAll": "سب دکھائیں",
+        "off": "چھوٹ"
+    }
+}

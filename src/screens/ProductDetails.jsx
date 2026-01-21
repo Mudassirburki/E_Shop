@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppHeader from "../components/Header/AppHeader";
@@ -8,6 +8,8 @@ import AppText from "../components/AppText";
 import { FONT } from "../components/responsive/AppResponsive";
 import { Ionicons } from "@expo/vector-icons";
 import CusttomButton from "../components/CusttomButton";
+import { ThemeContext } from "../context/ThemeContext";
+import { useTranslation } from "react-i18next";
 
 // const { width } = Dimensions.get("window");
 
@@ -16,11 +18,13 @@ const ProductDetails = ({ navigation, route }) => {
   const { product } = route.params;
   const user = product?.user;
   const images = product.images;
+  const { colors } = useContext(ThemeContext);
+  const { t } = useTranslation();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       {/* Header */}
       <AppHeader
-        title="Product Details"
+        title={t('productDetails')}
         leftIcon="arrow-left"
         rightIcon="menu"
         onLeftPress={() => navigation.goBack()}
@@ -47,7 +51,7 @@ const ProductDetails = ({ navigation, route }) => {
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "white",
+                backgroundColor: "white", // Images usually have white bg, or maybe colors.card if images are transparent
               }}
             >
               <Image
@@ -83,18 +87,18 @@ const ProductDetails = ({ navigation, route }) => {
           </View>
           <AppText.small style={styles.timeText}>2 Days Ago</AppText.small>
         </View>
-        <AppText.body numberOfLines={2} style={{ padding: 10 }}>
+        <AppText.body numberOfLines={2} style={{ padding: 10, color: colors.foreground }}>
           {product.title}
         </AppText.body>
         <View style={{ flexDirection: "row" }}>
-          <AppText.body style={[styles.price, { padding: 15 }]}>
+          <AppText.body style={[styles.price, { padding: 15, color: colors.foreground }]}>
             {product.price}
           </AppText.body>
           <AppText.body
             style={{
               padding: 15,
               textDecorationLine: "line-through",
-              color: "#888",
+              color: colors.secondary,
             }}
           >
             {product.originalPrice}
@@ -108,23 +112,23 @@ const ProductDetails = ({ navigation, route }) => {
               marginLeft: "auto",
             }}
           >
-            {product.discount} off
+            {product.discount} {t('off')}
           </AppText.body>
         </View>
         <View style={styles.userRow}>
           <Image source={user.avatar} style={styles.userImage} />
-          <AppText.body style={styles.userName}>{user.name}</AppText.body>
+          <AppText.body style={[styles.userName, { color: colors.foreground }]}>{user.name}</AppText.body>
         </View>
-        <AppText.h3 style={{padding:10,fontWeight:"bold"}}>Description</AppText.h3>
-        <AppText.body style={[styles.description, { padding: 10 }]}>
+        <AppText.h3 style={{ padding: 10, fontWeight: "bold", color: colors.foreground }}>{t('description')}</AppText.h3>
+        <AppText.body style={[styles.description, { padding: 10, color: colors.secondary }]}>
           {product.description}
         </AppText.body>
-        <CusttomButton  title="Get Deal" style={{width:"90%",alignSelf:"center"}}/>
-        <View style={styles.divider} />
-        <View style={{flexDirection:"row",padding:15}}>
-          <Ionicons name="chatbubbles-outline" size={22} color="#000" style={{marginTop:3}}/>
-          <AppText.body style={{}}>12 Comments</AppText.body>
-          <AppText.body style={{marginLeft:"auto"}}>Show All</AppText.body>
+        <CusttomButton title={t('getDeal')} style={{ width: "90%", alignSelf: "center" }} />
+        <View style={[styles.divider, { backgroundColor: colors.border }]} />
+        <View style={{ flexDirection: "row", padding: 15 }}>
+          <Ionicons name="chatbubbles-outline" size={22} color={colors.foreground} style={{ marginTop: 3 }} />
+          <AppText.body style={{ color: colors.foreground }}>12 {t('comments')}</AppText.body>
+          <AppText.body style={{ marginLeft: "auto", color: colors.primary }}>{t('showAll')}</AppText.body>
         </View>
       </SafeAreaView>
     </View>
@@ -188,27 +192,27 @@ const styles = StyleSheet.create({
     color: "#999",
   },
   userRow: {
-  flexDirection: "row",
-  alignItems: "center",
-  paddingHorizontal: 15,
-  paddingVertical: 8,
-},
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+  },
 
-userImage: {
-  width: 28,
-  height: 28,
-  borderRadius: 14,
-  marginRight: 8,
-},
+  userImage: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    marginRight: 8,
+  },
 
-userName: {
-  fontSize: 14,
-  fontWeight: "600",
-},
-divider: {
+  userName: {
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  divider: {
     height: 1,
     backgroundColor: "gray",
-   marginTop:20
+    marginTop: 20
   },
 
 });

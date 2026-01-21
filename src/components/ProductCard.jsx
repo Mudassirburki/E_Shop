@@ -6,13 +6,15 @@ import {
 } from "react-native";
 import AppText from "./AppText";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 import { FONT, SPACING, SIZE } from "./responsive/AppResponsive";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 const ProductCard = ({ item }) => {
+  const { colors } = useContext(ThemeContext);
   return (
-    <View style={styles.cardContainer}>
+    <View style={[styles.cardContainer, { backgroundColor: colors.card }]}>
       {/* Top Section */}
       <TouchableOpacity style={styles.topSection} activeOpacity={0.8}>
         {/* Left Image */}
@@ -30,7 +32,7 @@ const ProductCard = ({ item }) => {
             {item.title}
           </AppText.body>
 
-          
+
 
           <View style={styles.ratingRow}>
             <AppText.small style={styles.ratingNumber}>4.8</AppText.small>
@@ -43,16 +45,16 @@ const ProductCard = ({ item }) => {
             <AppText.small style={styles.timeText}>2 Days Ago</AppText.small>
           </View>
 
-          <AppText.small numberOfLines={2} style={styles.description}>
+          <AppText.small numberOfLines={2} style={[styles.description, { color: colors.secondary }]}>
             {item.description}
           </AppText.small>
 
           <View style={styles.priceRow}>
             <View>
-              <AppText.h3 style={styles.price}>${item.price || "34.00"}</AppText.h3>
+              <AppText.h3 style={[styles.price, { color: colors.foreground }]}>${item.price || "34.00"}</AppText.h3>
               <View style={styles.discountRow}>
                 <AppText.small style={styles.discountPercent}>{item.discount}</AppText.small>
-                <AppText.small style={styles.originalPrice}>{item.originalPrice}</AppText.small>
+                <AppText.small style={[styles.originalPrice, { color: colors.secondary }]}>{item.originalPrice}</AppText.small>
               </View>
             </View>
 
@@ -65,18 +67,18 @@ const ProductCard = ({ item }) => {
       </TouchableOpacity>
 
       {/* Divider */}
-      <View style={styles.divider} />
+      <View style={[styles.divider, { backgroundColor: colors.border }]} />
 
       {/* Footer Section */}
       <View style={styles.footer}>
         <View style={styles.userInfo}>
-          <View style={styles.avatarPlaceholder}>
+          <View style={[styles.avatarPlaceholder, { backgroundColor: colors.border }]}>
             <Image
               source={require("../../assets/burki.jpg")}
               style={styles.avatarImage}
             />
           </View>
-          <AppText.body style={styles.username}>Mudassir Burki</AppText.body>
+          <AppText.body style={[styles.username, { color: colors.foreground }]}>Mudassir Burki</AppText.body>
         </View>
 
         <View style={styles.socialActions}>
@@ -88,7 +90,7 @@ const ProductCard = ({ item }) => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconBtn}>
             <Ionicons name="chatbubble-outline" size={20} color="#F06A25" />
-            <AppText.small style={{ marginLeft: 4 }}>7</AppText.small>
+            <AppText.small style={{ marginLeft: 4, color: colors.secondary }}>7</AppText.small>
           </TouchableOpacity>
         </View>
       </View>
@@ -100,8 +102,8 @@ export default ProductCard;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: "#fff",
     borderRadius: 16,
+
     marginVertical: SPACING.small,
     elevation: 3, // Android shadow
     shadowColor: "#000", // iOS shadow

@@ -7,7 +7,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import CustomDropdown from "../components/CusttomDropdown";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { SearchBar } from "react-native-screens";
@@ -18,6 +18,8 @@ import { ArrowUpDown } from "lucide-react-native";
 import { ChevronDown } from "lucide-react-native/icons";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemeContext } from "../context/ThemeContext";
+import { useTranslation } from "react-i18next";
 import {
   LOCATIONS,
   CATEGORIES,
@@ -31,9 +33,11 @@ const HomeScreen = () => {
   const [search, setSearch] = useState("");
   const [isActive, setIsActive] = useState(null);
   const navigation = useNavigation();
+  const { colors } = useContext(ThemeContext);
+  const { t } = useTranslation();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       {/* header */}
       <View style={styles.header}>
         <View style={{ flex: 1, marginRight: 10 }}>
@@ -44,27 +48,29 @@ const HomeScreen = () => {
           />
         </View>
         <Pressable onPress={() => navigation.navigate('NotificationScreen')}>
-        <Ionicons
-          style={{ marginTop: 10 }}
-          name="notifications-outline"
-          size={25}
-          color={"black"}
-        />
+          <Ionicons
+            style={{ marginTop: 10 }}
+            name="notifications-outline"
+            size={25}
+            color={colors.foreground}
+          />
         </Pressable>
       </View>
 
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }} showsVerticalScrollIndicator={false}>
         {/* searchBar */}
-        <View style={styles.searchBar}>
-          <Ionicons name="search" size={20} color={"black"} />
+        <View style={[styles.searchBar, { backgroundColor: colors.card }]}>
+          <Ionicons name="search" size={20} color={colors.foreground} />
           <TextInput
-            placeholder="Search here..."
+            placeholder={t('searchPlaceholder')}
+            placeholderTextColor={colors.secondary}
             value={search}
             onChangeText={setSearch}
             style={{
               flex: 1,
               borderRadius: 10,
               marginLeft: 10,
+              color: colors.foreground
             }}
           />
         </View>
@@ -76,8 +82,8 @@ const HomeScreen = () => {
             padding: 10,
           }}
         >
-          <AppText.body>Top Categories</AppText.body>
-          <Ionicons name="arrow-forward" size={23} color={"#000"} />
+          <AppText.body style={{ color: colors.foreground }}>{t('topCategories')}</AppText.body>
+          <Ionicons name="arrow-forward" size={23} color={colors.foreground} />
         </View>
 
         <FlatList
@@ -94,13 +100,13 @@ const HomeScreen = () => {
                 <View
                   style={[
                     styles.categoriesRoot,
-                    { backgroundColor: active ? "#F06A25" : "#FFFFFF" },
+                    { backgroundColor: active ? "#F06A25" : colors.card },
                   ]}
                 >
                   <Ionicons
                     name={item.icon}
                     size={22}
-                    color={active ? "#FFFFFF" : "#000000"}
+                    color={active ? "#FFFFFF" : colors.foreground}
                   />
                 </View>
               </Pressable>
@@ -121,34 +127,34 @@ const HomeScreen = () => {
         />
 
         <View style={styles.hotDeals}>
-          <AppText.body style={{ fontWeight: "bold" }}>Hot Deals</AppText.body>
+          <AppText.body style={{ fontWeight: "bold", color: colors.foreground }}>{t('hotDeals')}</AppText.body>
           <View style={{ flexDirection: "row", gap: 5 }}>
-            <ArrowUpDown size={20} color={"black"} />
-            <AppText.body>Sort by: All</AppText.body>
+            <ArrowUpDown size={20} color={colors.foreground} />
+            <AppText.body style={{ color: colors.foreground }}>{t('sortBy')}</AppText.body>
             <ChevronDown size={20} color={"#F06A25"} />
           </View>
         </View>
-        
-       <FlatList
-  data={PRODUCT_DATA}
-  keyExtractor={(item) => item.id.toString()}
-  renderItem={({ item }) => (
-    <Pressable
-      onPress={() => {
-        console.log("Clicked:", item.title);
-        navigation.navigate('ProductDetails', {
-          product: item,
-        });
-      }}
-    >
-      <ProductCard item={item} />
-    </Pressable>
-  )}
-  contentContainerStyle={{ padding: 5 }}
-  scrollEnabled={false}
-/>
 
-       
+        <FlatList
+          data={PRODUCT_DATA}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <Pressable
+              onPress={() => {
+                console.log("Clicked:", item.title);
+                navigation.navigate('ProductDetails', {
+                  product: item,
+                });
+              }}
+            >
+              <ProductCard item={item} />
+            </Pressable>
+          )}
+          contentContainerStyle={{ padding: 5 }}
+          scrollEnabled={false}
+        />
+
+
         {/* <FlatList
           data={PRODUCT_DATA}
           keyExtractor={(item) => item.id}

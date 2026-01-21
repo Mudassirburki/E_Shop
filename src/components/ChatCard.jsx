@@ -1,11 +1,15 @@
 import { View, Image, StyleSheet } from "react-native";
 import AppText from "./AppText";
 import ListRow from "./common/ListRow";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const ChatCard = ({ item }) => {
+  const { colors } = useContext(ThemeContext);
+
   return (
     <ListRow
-      left={<Image source={item.avatar} style={styles.avatar} />}
+      left={<Image source={item.avatar} style={[styles.avatar, { backgroundColor: colors.border }]} />}
       center={
         <View style={styles.middle}>
           <AppText.body style={styles.name}>{item.name}</AppText.body>
@@ -27,7 +31,7 @@ const ChatCard = ({ item }) => {
           )}
         </View>
       }
-      containerStyle={styles.container}
+      containerStyle={[styles.container, { borderColor: colors.border }]}
     />
   );
 };

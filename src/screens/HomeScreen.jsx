@@ -15,8 +15,15 @@ import AppText from "../components/AppText";
 import { Image } from "expo-image";
 import ProductCard from "../components/ProductCard";
 import { ArrowUpDown } from "lucide-react-native";
-import { ChevronDown } from "lucide-react-native/icons";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import {
+  ChevronDown,
+  SlidersHorizontal,
+  SlidersVertical,
+} from "lucide-react-native/icons";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemeContext } from "../context/ThemeContext";
 import { useTranslation } from "react-i18next";
@@ -24,7 +31,7 @@ import {
   LOCATIONS,
   CATEGORIES,
   IMAGE_CATEGORIES,
-  PRODUCT_DATA
+  PRODUCT_DATA,
 } from "../data/dummyData";
 import { useNavigation } from "@react-navigation/native";
 
@@ -37,7 +44,9 @@ const HomeScreen = () => {
   const { t } = useTranslation();
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       {/* header */}
       <View style={styles.header}>
         <View style={{ flex: 1, marginRight: 10 }}>
@@ -47,7 +56,7 @@ const HomeScreen = () => {
             onSelect={(item) => setLocation(item)}
           />
         </View>
-        <Pressable onPress={() => navigation.navigate('NotificationScreen')}>
+        <Pressable onPress={() => navigation.navigate("NotificationScreen")}>
           <Ionicons
             style={{ marginTop: 10 }}
             name="notifications-outline"
@@ -57,32 +66,41 @@ const HomeScreen = () => {
         </Pressable>
       </View>
 
-      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
+        showsVerticalScrollIndicator={false}
+      >
         {/* searchBar */}
-        <View style={[styles.searchBar, { backgroundColor: colors.card }]}>
-          <Ionicons name="search" size={20} color={colors.foreground} />
-          <TextInput
-            placeholder={t('searchPlaceholder')}
-            placeholderTextColor={colors.secondary}
-            value={search}
-            onChangeText={setSearch}
-            style={{
-              flex: 1,
-              borderRadius: 10,
-              marginLeft: 10,
-              color: colors.foreground
-            }}
-          />
-        </View>
-
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "space-between",
-            padding: 10,
+            alignItems: "center",
+            paddingHorizontal: 20,
+            marginBottom: 10,
           }}
         >
-          <AppText.body style={{ color: colors.foreground }}>{t('topCategories')}</AppText.body>
+          <View style={[styles.searchBar, { backgroundColor: colors.card }]}>
+            <Ionicons name="search" size={20} color={colors.foreground} />
+            <TextInput
+              placeholder={t("searchPlaceholder")}
+              placeholderTextColor={colors.secondary}
+              value={search}
+              onChangeText={setSearch}
+              style={{
+                flex: 1,
+                borderRadius: 10,
+                marginLeft: 10,
+                color: colors.foreground,
+              }}
+            />
+          </View>
+          <SlidersHorizontal size={24} color={colors.foreground} />
+        </View>
+
+        <View style={styles.topCategoriesView}>
+          <AppText.body style={{ color: colors.foreground }}>
+            {t("topCategories")}
+          </AppText.body>
           <Ionicons name="arrow-forward" size={23} color={colors.foreground} />
         </View>
 
@@ -90,47 +108,52 @@ const HomeScreen = () => {
           data={CATEGORIES}
           keyExtractor={(item) => item.id.toString()}
           horizontal
+          style={{ height: 12 }}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 10 }}
           renderItem={({ item }) => {
             const active = isActive === item.id;
 
             return (
-              <Pressable onPress={() => setIsActive(item.id)}>
-                <View
-                  style={[
-                    styles.categoriesRoot,
-                    { backgroundColor: active ? "#F06A25" : colors.card },
-                  ]}
-                >
-                  <Ionicons
-                    name={item.icon}
-                    size={22}
-                    color={active ? "#FFFFFF" : colors.foreground}
-                  />
-                </View>
+              <Pressable
+                onPress={() => setIsActive(item.id)}
+                style={[
+                  styles.categoriesRoot,
+                  { backgroundColor: active ? "#F06A25" : colors.card },
+                ]}
+              >
+                <Ionicons
+                  name={item.icon}
+                  size={22}
+                  color={active ? "#FFFFFF" : colors.foreground}
+                />
               </Pressable>
             );
           }}
         />
-
 
         <FlatList
           data={IMAGE_CATEGORIES}
           keyExtractor={(item) => item.id.toString()}
           horizontal
           showsHorizontalScrollIndicator={false}
-          style={{ marginTop: 25 }}
+          
           renderItem={({ item }) => (
             <Image source={item.image} style={styles.image} />
           )}
         />
 
         <View style={styles.hotDeals}>
-          <AppText.body style={{ fontWeight: "bold", color: colors.foreground }}>{t('hotDeals')}</AppText.body>
+          <AppText.body
+            style={{ fontWeight: "bold", color: colors.foreground }}
+          >
+            {t("hotDeals")}
+          </AppText.body>
           <View style={{ flexDirection: "row", gap: 5 }}>
             <ArrowUpDown size={20} color={colors.foreground} />
-            <AppText.body style={{ color: colors.foreground }}>{t('sortBy')}</AppText.body>
+            <AppText.body style={{ color: colors.foreground }}>
+              {t("sortBy")}
+            </AppText.body>
             <ChevronDown size={20} color={"#F06A25"} />
           </View>
         </View>
@@ -142,7 +165,7 @@ const HomeScreen = () => {
             <Pressable
               onPress={() => {
                 console.log("Clicked:", item.title);
-                navigation.navigate('ProductDetails', {
+                navigation.navigate("ProductDetails", {
                   product: item,
                 });
               }}
@@ -153,7 +176,6 @@ const HomeScreen = () => {
           contentContainerStyle={{ padding: 5 }}
           scrollEnabled={false}
         />
-
 
         {/* <FlatList
           data={PRODUCT_DATA}
@@ -176,10 +198,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9f9f9", // Good practice to have a background color for safe area
   },
   hotDeals: {
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    // paddingTop: 10, // Removed top padding to reduce space
     flexDirection: "row",
     justifyContent: "space-between",
-
   },
   header: {
     paddingHorizontal: 20, // Moved padding here
@@ -187,27 +210,27 @@ const styles = StyleSheet.create({
     // marginTop: 20, // REMOVED: SafeAreaView handles this
     justifyContent: "space-between",
     flexDirection: "row",
-
   },
   searchBar: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
     borderRadius: 10,
     paddingHorizontal: 12,
     height: 45,
-    marginHorizontal: 20, // Added margin horizontal to center it properly with other content
-    marginBottom: 10,
+    marginRight: 10,
+    // marginHorizontal: 20, // Removed to allow flex: 1 to work with parent padding
+    // marginBottom: 10, // Moved to parent container
   },
   categoriesRoot: {
-    width: wp("15%"),
-    height: wp("15%"), // Making it square relative to width usually looks better, or fixed aspect ratio
+    width: wp("12%"),
+    height: wp("12%"), // Making it square relative to width usually looks better, or fixed aspect ratio
     borderRadius: 10,
     marginRight: 20,
     alignItems: "center",
     justifyContent: "center",
     elevation: 4,
-    marginBottom: 10,
   },
   image: {
     width: wp("90%"),
@@ -215,5 +238,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginRight: 10,
     marginLeft: 10, // Added margin left to balance if it's the first item, though FlatList contentContainerStyle is better
+  },
+  topCategoriesView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 10,
   },
 });

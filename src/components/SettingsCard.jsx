@@ -45,15 +45,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 16,
     borderRadius: 12,
-    marginVertical: 8,
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
-    width: "95%",
-    height: 60,
-    alignSelf: "center",
-
   },
   icon: {
     marginRight: 12,

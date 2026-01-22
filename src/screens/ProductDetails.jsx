@@ -39,11 +39,11 @@ const ProductDetails = ({ navigation, route }) => {
 
         <Carousel
           loop
-          width={406}
+          width={Dimensions.get("window").width}
           height={250}
           autoPlay={false}
           data={images}
-          scrollAnimationDuration={5000}
+          scrollAnimationDuration={1000}
           onSnapToItem={(index) => setActiveIndex(index)}
           renderItem={({ item }) => (
             <View
@@ -51,16 +51,14 @@ const ProductDetails = ({ navigation, route }) => {
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "white", // Images usually have white bg, or maybe colors.card if images are transparent
               }}
             >
               <Image
                 source={item}
                 style={{
-                  width: 406,
+                  width: "90%",
                   height: 250,
                   borderRadius: 20,
-                  padding: 10,
                 }}
                 contentMode="contain"
               />
@@ -138,14 +136,14 @@ const ProductDetails = ({ navigation, route }) => {
 export default ProductDetails;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: { flex: 1 },
   contentContainer: { flex: 1 }, // Important: take remaining space
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 8 },
   description: { fontSize: 16, color: "#555", marginBottom: 12 },
   price: { fontSize: 18, fontWeight: "600", color: "#000" },
   doteContainer: {
     height: 35,
-    width: 406,
+    width: Dimensions.get("window").width,
     marginTop: 220,
     flexDirection: "row",
     justifyContent: "center",

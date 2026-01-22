@@ -122,7 +122,7 @@ const Settings = () => {
           return renderMenuItem({ item });
         }}
         contentContainerStyle={{ padding: 16 }}
-        ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
+        ItemSeparatorComponent={() => <View style={{ height: 12, }} />}
       />
 
       <CustomModal

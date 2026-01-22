@@ -185,3 +185,21 @@ export const accountDeletion = {
   icon: 'person-remove-outline',
   
 };
+
+export const USER_STATS = [
+  {
+    id: 1,
+    label: "Followers",
+    value: "1.2k",
+  },
+  {
+    id: 2,
+    label: "Following",
+    value: "4.5k",
+  },
+  {
+    id: 3,
+    label: "Deals",
+    value: "89",
+  },
+];

@@ -13,7 +13,7 @@ export default function BottomsTabNavigator() {
   return (
     <Tab.Navigator
    screenOptions={{
-        headerShown:false
+        headerShown:false,
       }}
       tabBar={(props) => <CustomTabs {...props} />}
     >

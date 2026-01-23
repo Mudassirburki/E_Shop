@@ -5,6 +5,7 @@ import AppText from "./src/components/AppText"
 import RootNavigator from './src/navigation/RootNavigator';
 import { AuthProvider } from './src/context/AuthContext';
 import { ThemeProvider } from './src/context/ThemeContext';
+import { BookmarksProvider } from './src/context/BookmarksContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 
@@ -21,9 +22,11 @@ export default function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
-        <NavigationContainer>
-          <RootNavigator/>
-        </NavigationContainer>
+        <BookmarksProvider>
+          <NavigationContainer>
+            <RootNavigator/>
+          </NavigationContainer>
+        </BookmarksProvider>
       </ThemeProvider>
     </AuthProvider>
    

@@ -8,11 +8,14 @@ import AppText from "./AppText";
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import { BookmarksContext } from "../context/BookmarksContext";
 import { FONT, SPACING, SIZE } from "./responsive/AppResponsive";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 const ProductCard = ({ item }) => {
   const { colors } = useContext(ThemeContext);
+  const { isBookmarked, toggleBookmark } = useContext(BookmarksContext);
+  const bookmarked = isBookmarked(item.id);
   return (
     <View style={[styles.cardContainer, { backgroundColor: colors.card }]}>
       {/* Top Section */}
@@ -82,8 +85,12 @@ const ProductCard = ({ item }) => {
         </View>
 
         <View style={styles.socialActions}>
-          <TouchableOpacity style={styles.iconBtn}>
-            <Ionicons name="bookmark-outline" size={20} color="#F06A25" />
+          <TouchableOpacity style={styles.iconBtn} onPress={() => toggleBookmark(item)}>
+            <Ionicons
+              name={bookmarked ? "bookmark" : "bookmark-outline"}
+              size={20}
+              color={bookmarked ? "#F06A25" : "#F06A25"}
+            />
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconBtn}>
             <Ionicons name="share-social-outline" size={20} color="#F06A25" />

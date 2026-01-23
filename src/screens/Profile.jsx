@@ -7,6 +7,7 @@ import ProfileHeader from '../components/profile/ProfileHeader'
 import Avatar from '../components/profile/Avatar'
 import UserInfo from '../components/profile/UserInfo'
 import StatsRow from '../components/profile/StatsRow'
+import ProfileTabs from '../components/profile/ProfileTabs'
 
 const Profile = () => {
   const { colors } = useContext(ThemeContext);
@@ -14,11 +15,12 @@ const Profile = () => {
     // <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
 
     // </SafeAreaView>
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 ,backgroundColor:colors.background}}>
       <ProfileHeader />
       <Avatar />
       <UserInfo />
-      <StatsRow/>
+      <StatsRow />
+      <ProfileTabs />
     </View>
   )
 }

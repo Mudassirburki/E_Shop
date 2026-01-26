@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   body: {
     fontSize: FONT.regular,
     fontFamily: "Manrope-Regular",
+    fontWeight:"bold"
   },
   small: {
     fontSize: FONT.small,

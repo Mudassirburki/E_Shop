@@ -43,6 +43,10 @@ const HomeScreen = () => {
   const { colors } = useContext(ThemeContext);
   const { t } = useTranslation();
 
+  const onFilterPress =()=>{
+    navigation.navigate('FilterScreen')
+  }
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.background }]}
@@ -94,7 +98,9 @@ const HomeScreen = () => {
               }}
             />
           </View>
+          <Pressable onPress={onFilterPress}>
           <SlidersHorizontal size={24} color={colors.foreground} />
+          </Pressable>
         </View>
 
         <View style={styles.topCategoriesView}>

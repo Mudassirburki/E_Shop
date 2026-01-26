@@ -4,6 +4,9 @@ import BottomsTabNavigator from "../BottomsTabNavigator";
 import NotificationScreen from "../../screens/notifications/NotificationScreen";
 import NavigationStack from "../NavigationStack/NavigationStack";
 import AccountSettings from "../../screens/Settings/AccountSettings";
+import FilterScreen from "../../screens/filters/FilterScreen";
+import CategoryScreen from "../../screens/filters/CategoryScreen";
+import BrandScreen from "../../screens/filters/BrandScreen";
 
 const Stack = createNativeStackNavigator();
 const RootStackNavigator=()=>{
@@ -13,6 +16,9 @@ const RootStackNavigator=()=>{
             <Stack.Screen name="ProductDetails" component={ProductDetails}/>
             <Stack.Screen name="NotificationScreen" component={NavigationStack}/>
             <Stack.Screen name="AccountSettings" component={AccountSettings}/>
+            <Stack.Screen name="FilterScreen" component={FilterScreen}/>
+            <Stack.Screen name="Category" component={CategoryScreen}/>
+            <Stack.Screen name="Brand" component={BrandScreen}/>
         </Stack.Navigator>
     )
 }

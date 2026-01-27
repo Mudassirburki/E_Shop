@@ -11,7 +11,7 @@ import BrandScreen from "../../screens/filters/BrandScreen";
 const Stack = createNativeStackNavigator();
 const RootStackNavigator=()=>{
     return(
-        <Stack.Navigator screenOptions={{headerShown:false}}>
+        <Stack.Navigator  screenOptions={{headerShown:false,statusBarStyle:"dark"}}>
             <Stack.Screen name="BottomTab" component={BottomsTabNavigator}/>
             <Stack.Screen name="ProductDetails" component={ProductDetails}/>
             <Stack.Screen name="NotificationScreen" component={NavigationStack}/>

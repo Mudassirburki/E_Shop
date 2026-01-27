@@ -13,6 +13,7 @@ import AppText from '../../components/AppText';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { ChevronRight } from 'lucide-react-native';
 
+
 const Settings = () => {
   const { logout } = useContext(AuthContext);
   const { theme, toggleTheme, colors } = useContext(ThemeContext);

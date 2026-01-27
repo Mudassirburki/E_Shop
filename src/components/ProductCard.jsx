@@ -11,11 +11,33 @@ import { ThemeContext } from "../context/ThemeContext";
 import { BookmarksContext } from "../context/BookmarksContext";
 import { FONT, SPACING, SIZE } from "./responsive/AppResponsive";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { scheduleNotification, showNotification } from "../services/NotificationService";
 
 const ProductCard = ({ item }) => {
   const { colors } = useContext(ThemeContext);
-  const { isBookmarked, toggleBookmark } = useContext(BookmarksContext);
+  const { isBookmarked, toggleBookmark,bookmarks } = useContext(BookmarksContext);
   const bookmarked = isBookmarked(item.id);
+
+  
+const handleBookmark = (item) => {
+  const alreadyBookmarked = isBookmarked(item.id);
+
+  toggleBookmark(item);
+
+  // sirf jab ADD ho
+  if (!alreadyBookmarked) {
+    showNotification(
+      'Bookmark Added',
+      `${item.title} added to your bookmarks`
+    );
+
+    scheduleNotification(
+      'Bookmark Reminder',
+      'You have items waiting in your bookmarks',
+      60
+    );
+  }
+};
   return (
     <View style={[styles.cardContainer, { backgroundColor: colors.card }]}>
       {/* Top Section */}
@@ -85,7 +107,7 @@ const ProductCard = ({ item }) => {
         </View>
 
         <View style={styles.socialActions}>
-          <TouchableOpacity style={styles.iconBtn} onPress={() => toggleBookmark(item)}>
+          <TouchableOpacity style={styles.iconBtn} onPress={() => handleBookmark(item)}>
             <Ionicons
               name={bookmarked ? "bookmark" : "bookmark-outline"}
               size={20}

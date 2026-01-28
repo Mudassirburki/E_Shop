@@ -10,9 +10,21 @@ export const AuthProvider = ({ children }) => {
   // App start pe restore session
   useEffect(() => {
     const restoreSession = async () => {
-      const token = await AsyncStorage.getItem("userToken");
-      if (token) setUserToken(token);
-      setLoading(false);
+      try {
+        console.log("AuthContext: Restoring session...");
+        const token = await AsyncStorage.getItem("userToken");
+        if (token) {
+          console.log("AuthContext: Found token:", token);
+          setUserToken(token);
+        } else {
+          console.log("AuthContext: No token found");
+        }
+      } catch (error) {
+        console.error("AuthContext: Error restoring session:", error);
+      } finally {
+        setLoading(false);
+        console.log("AuthContext: Loading finished");
+      }
     };
     restoreSession();
   }, []);

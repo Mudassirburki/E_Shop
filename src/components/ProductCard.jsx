@@ -1,9 +1,9 @@
 import {
   View,
-  Image,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { Image } from "expo-image";
 import AppText from "./AppText";
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useContext } from "react";
@@ -15,36 +15,36 @@ import { scheduleNotification, showNotification } from "../services/Notification
 
 const ProductCard = ({ item }) => {
   const { colors } = useContext(ThemeContext);
-  const { isBookmarked, toggleBookmark,bookmarks } = useContext(BookmarksContext);
+  const { isBookmarked, toggleBookmark, bookmarks } = useContext(BookmarksContext);
   const bookmarked = isBookmarked(item.id);
 
-  
-const handleBookmark = (item) => {
-  const alreadyBookmarked = isBookmarked(item.id);
 
-  toggleBookmark(item);
+  const handleBookmark = (item) => {
+    const alreadyBookmarked = isBookmarked(item.id);
 
-  // sirf jab ADD ho
-  if (!alreadyBookmarked) {
-    showNotification(
-      'Bookmark Added',
-      `${item.title} added to your bookmarks`
-    );
+    toggleBookmark(item);
 
-    scheduleNotification(
-      'Bookmark Reminder',
-      'You have items waiting in your bookmarks',
-      60
-    );
-  }
-};
+    // sirf jab ADD ho
+    if (!alreadyBookmarked) {
+      showNotification(
+        'Bookmark Added',
+        `${item.title} added to your bookmarks`
+      );
+
+      scheduleNotification(
+        'Bookmark Reminder',
+        'You have items waiting in your bookmarks',
+        60
+      );
+    }
+  };
   return (
     <View style={[styles.cardContainer, { backgroundColor: colors.card }]}>
       {/* Top Section */}
       <TouchableOpacity style={styles.topSection} activeOpacity={0.8}>
         {/* Left Image */}
         <View style={styles.imageWrapper}>
-          <Image source={item.images?.[2]} style={styles.image} resizeMode="stretch" />
+          <Image source={item.images?.[2]} style={styles.image} contentFit="cover" />
           {/* Example Overlay Badge */}
           {/* <View style={styles.badge}>
              <Ionicons name="bag-handle" size={12} color="#fff" />
@@ -126,6 +126,7 @@ const handleBookmark = (item) => {
     </View>
   );
 };
+
 
 export default ProductCard;
 

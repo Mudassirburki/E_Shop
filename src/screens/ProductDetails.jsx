@@ -60,7 +60,7 @@ const ProductDetails = ({ navigation, route }) => {
                   height: 250,
                   borderRadius: 20,
                 }}
-                contentMode="contain"
+                contentFit="contain"
               />
             </View>
           )}

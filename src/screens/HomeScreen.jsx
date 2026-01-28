@@ -14,12 +14,8 @@ import { SearchBar } from "react-native-screens";
 import AppText from "../components/AppText";
 import { Image } from "expo-image";
 import ProductCard from "../components/ProductCard";
-import { ArrowUpDown } from "lucide-react-native";
-import {
-  ChevronDown,
-  SlidersHorizontal,
-  SlidersVertical,
-} from "lucide-react-native/icons";
+import { ArrowUpDown ,ChevronDown,
+  SlidersHorizontal,} from "lucide-react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

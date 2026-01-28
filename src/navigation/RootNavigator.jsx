@@ -8,10 +8,10 @@ import { ActivityIndicator, View } from "react-native";
 import BottomsTabNavigator from "./BottomsTabNavigator";
 import RootStackNavigator from "./stacks/RootStackNavigator";
 
-const RootNavigator=()=>{
-     const { userToken, loading } = useContext(AuthContext);
+const RootNavigator = () => {
+  const { userToken, loading } = useContext(AuthContext);
 
-   
+
   if (loading){
     return (
       <View style={{ flex: 1, justifyContent: "center" }}>
@@ -20,6 +20,7 @@ const RootNavigator=()=>{
     );
   }
 
-  return userToken ? < RootStackNavigator/> : <AuthNavigator />;
+
+  return userToken ? < RootStackNavigator /> : <AuthNavigator />;
 }
 export default RootNavigator;
